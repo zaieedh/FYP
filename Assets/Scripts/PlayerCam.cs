@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Controller of camera, mouse rotation
 public class PlayerCam : MonoBehaviour
 {
     public float sensX;

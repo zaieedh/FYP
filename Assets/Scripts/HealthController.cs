@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+//Health controller, setting HP and updating UI bar
 public class HealthController : MonoBehaviour
 {
     [Range(0,100)]

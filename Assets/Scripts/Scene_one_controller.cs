@@ -9,6 +9,8 @@ public class Scene_one_controller : MonoBehaviour
     public Animator transition;
     public Animation ghoulDeathAnimation;
 
+    public static int ghoulsKilled;
+
     private void FixedUpdate()
     {
         // Bit shift the index of the layer (8) to get a bit mask
@@ -22,37 +24,49 @@ public class Scene_one_controller : MonoBehaviour
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(cameraObject.position, cameraObject.TransformDirection(Vector3.forward), out hit, 2f, layerMask))
         {
+            //Checking if Doors are in front of us
             if (hit.transform.gameObject.name == "Door")
             {
-                ghoulText.gameObject.SetActive(false);
+                //Displaying text on UI to click E to open door
                 doorText.gameObject.SetActive(true);
+                //Going to next scene (inside of house) on clicking E key
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     StartCoroutine(GoToNextScene(1));
                 }
+            
+                //Checking if Ghoul is in front of us
             }else if(hit.transform.gameObject.name == "Ghoul")
             {
-                doorText.gameObject.SetActive(false);
-                ghoulText.gameObject.SetActive(true);
-                if (Input.GetKeyDown(KeyCode.R))
+                bool isDead = hit.transform.gameObject.GetComponent<Ghoul>().IsDead;
+                if (isDead == false)
                 {
-                    hit.transform.gameObject.GetComponent<Animation>().Play("Death");
-                    Debug.Log("Ghoul killed! Good job!");
+                    //Displaying text on UI to click left mouse button to kill GHOUL
+                    ghoulText.gameObject.SetActive(true);
+                    //Killing ghoul on clicking left mouse button
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        hit.transform.gameObject.GetComponent<Animation>().Play("Death");
+                        hit.transform.gameObject.GetComponent<Ghoul>().IsDead = true;
+                        ghoulsKilled++;
+                    }
                 }
             }
             else
             {
+                //Hiding UI tips when we dont point on Ghoul or Doors
                 ghoulText.gameObject.SetActive(false);
                 doorText.gameObject.SetActive(false);
             }
         }
         else
         {
+            //Hiding UI tips when we dont point on any object
             ghoulText.gameObject.SetActive(false);
             doorText.gameObject.SetActive(false);
         }
     }
-
+    //Setting transition between scenes and going to next scene
     IEnumerator GoToNextScene(int sceneIndex)
     {
         transition.SetTrigger("Start");
