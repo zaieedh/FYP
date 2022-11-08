@@ -629,8 +629,12 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 243213272680728874, guid: 1c57676dbf510d843bbc17f3cfcaddef, type: 3}
+      propertyPath: jumpForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 243213272680728874, guid: 1c57676dbf510d843bbc17f3cfcaddef, type: 3}
       propertyPath: moveSpeed
-      value: 13
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 243213272680728875, guid: 1c57676dbf510d843bbc17f3cfcaddef, type: 3}
       propertyPath: m_RootOrder

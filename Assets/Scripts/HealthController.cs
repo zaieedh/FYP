@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HealthController : MonoBehaviour
 {
     [Range(0,100)]
-    public int Health;
+    public static int Health;
     public Slider HealthBar;
     public TextMeshProUGUI HealthText;
 
@@ -18,6 +18,8 @@ public class HealthController : MonoBehaviour
 
     private void Update()
     {
+        if (Health <= 0)
+            Health = 0;
         HealthBar.value = 100 - Health;
         HealthText.text = Health.ToString();
     }
