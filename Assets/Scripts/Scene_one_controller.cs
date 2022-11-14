@@ -5,11 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class Scene_one_controller : MonoBehaviour
 {
+
     public Transform cameraObject, doorText, ghoulText;
     public Animator transition;
     public Animation ghoulDeathAnimation;
 
     public static int ghoulsKilled;
+
+    private void Start()
+    {
+        Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+    }
 
     private void FixedUpdate()
     {
@@ -49,6 +56,7 @@ public class Scene_one_controller : MonoBehaviour
                         hit.transform.gameObject.GetComponent<Animation>().Play("Death");
                         hit.transform.gameObject.GetComponent<Ghoul>().IsDead = true;
                         ghoulsKilled++;
+                        StartCoroutine(RemoveGhoulFromScene(hit.transform.gameObject));
                     }
                 }
             }
@@ -67,7 +75,12 @@ public class Scene_one_controller : MonoBehaviour
         }
     }
     //Setting transition between scenes and going to next scene
-    IEnumerator GoToNextScene(int sceneIndex)
+    IEnumerator RemoveGhoulFromScene(GameObject ghoul)
+    {
+        yield return new WaitForSeconds(2);
+        Destroy(ghoul);
+    }
+    public IEnumerator GoToNextScene(int sceneIndex)
     {
         transition.SetTrigger("Start");
 
@@ -79,7 +92,5 @@ public class Scene_one_controller : MonoBehaviour
         transition.SetTrigger("End");
 
         SceneManager.LoadScene(sceneIndex);
-
-        
     }
 }

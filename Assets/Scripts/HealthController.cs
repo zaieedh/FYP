@@ -19,7 +19,12 @@ public class HealthController : MonoBehaviour
     private void Update()
     {
         if (Health <= 0)
+        {
+            StartCoroutine(FindObjectOfType<Scene_one_controller>().GoToNextScene(0));
             Health = 0;
+        }
+        else if (Health > 100)
+            Health = 100;
         HealthBar.value = 100 - Health;
         HealthText.text = Health.ToString();
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ghoul : MonoBehaviour
 {
     public bool IsDead;
-    public GameObject Player;
+    private GameObject Player;
 
     public void Start()
     {
@@ -17,32 +17,46 @@ public class Ghoul : MonoBehaviour
         if (!IsDead)
         {
             float distanceFromGhoulToPlayer = Mathf.Pow(Mathf.Pow((transform.position.x - Player.transform.position.x), 2) + Mathf.Pow((transform.position.z - Player.transform.position.z), 2), 0.5f);
-            if (distanceFromGhoulToPlayer < 10)
+            if (distanceFromGhoulToPlayer < 2.5)
             {
+                GetComponent<Animation>().Play("Attack1");
+                transform.LookAt(Player.transform);
+                //transform.position = Vector3.Lerp(transform.position, new Vector3(Player.transform.position.x - 1, Player.transform.position.y - 1, Player.transform.position.z - 1), Time.deltaTime * 0.5f);
+            }else if (distanceFromGhoulToPlayer < 10)
+            {
+                GetComponent<Animation>().Play("Run");
+                transform.LookAt(Player.transform);
+                transform.position = Vector3.Lerp(transform.position, new Vector3(Player.transform.position.x - 1, Player.transform.position.y - 1, Player.transform.position.z - 1), Time.deltaTime * 0.3f);
+            }else if(distanceFromGhoulToPlayer < 20)
+            {
+                GetComponent<Animation>().Play("Walk");
+                transform.LookAt(Player.transform);
                 transform.position = Vector3.Lerp(transform.position, new Vector3(Player.transform.position.x - 1, Player.transform.position.y - 1, Player.transform.position.z - 1), Time.deltaTime * 0.1f);
             }
         }
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (!IsDead)
-        {
-            if (collision.gameObject.name == "Player")
-            {
-                HealthController.Health -= 10;
-            }
-        }
-    }
+    bool AttackStarted;
 
     void OnCollisionStay(Collision collision)
     {
-        if (!IsDead)
+        /*if (!IsDead)
         {
             if (collision.gameObject.name == "Player")
             {
-                HealthController.Health -= 1;
+                if (!AttackStarted)
+                {
+                    StartCoroutine(Attack());
+                }
             }
-        }
+        }*/
+    }
+
+    IEnumerator Attack()
+    {
+        AttackStarted = true;
+        HealthController.Health -= 10;
+        yield return new WaitForSeconds(1);
+        AttackStarted = false;
     }
 }

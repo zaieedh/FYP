@@ -210,7 +210,6 @@ GameObject:
   - component: {fileID: 243213272680728875}
   - component: {fileID: 243213272680728872}
   - component: {fileID: 243213272680728874}
-  - component: {fileID: 243213272680728877}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -277,20 +276,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147483647
   orientation: {fileID: 243213272986345780}
---- !u!136 &243213272680728877
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243213272680728873}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &243213272986345781
 GameObject:
   m_ObjectHideFlags: 0
