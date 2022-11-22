@@ -14,8 +14,7 @@ public class Scene_one_controller : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = false;
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     private void FixedUpdate()
