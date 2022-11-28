@@ -25,17 +25,30 @@ public class Collectible : MonoBehaviour
         {
             if(Type == CollectibleType.Health)
             {
-                StartCoroutine(DestroyCollectible());
+                StartCoroutine(DestroyHealthCollectible());
+            }else if(Type == CollectibleType.Money)
+            {
+                StartCoroutine(DestroyMoneyCollectible());
             }
         }
     }
-
-    IEnumerator DestroyCollectible()
+    //Destroying collectible item that gives health
+    IEnumerator DestroyHealthCollectible()
     {
         whileDestroying = true;
         GetComponent<MeshCollider>().enabled = false;
         AudioSource.Play();
         HealthController.Health += ValueWhenCatched;
+        yield return new WaitWhile(() => AudioSource.isPlaying);
+        Destroy(gameObject);
+    }
+    //Destroying collectible item that gives money
+    IEnumerator DestroyMoneyCollectible()
+    {
+        whileDestroying = true;
+        GetComponent<MeshCollider>().enabled = false;
+        AudioSource.Play();
+        Scene_one_controller.money += ValueWhenCatched;
         yield return new WaitWhile(() => AudioSource.isPlaying);
         Destroy(gameObject);
     }

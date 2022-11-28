@@ -7,8 +7,10 @@ public class Scene_one_controller : MonoBehaviour
 {
 
     public Transform cameraObject, doorText, ghoulText;
+    public GameObject coin;
     public Animator transition;
     public Animation ghoulDeathAnimation;
+    public static int money;
 
     public static int ghoulsKilled;
 
@@ -77,6 +79,9 @@ public class Scene_one_controller : MonoBehaviour
     IEnumerator RemoveGhoulFromScene(GameObject ghoul)
     {
         yield return new WaitForSeconds(2);
+        //Instantiating reward for killing ghoul
+        Transform coinTransform = ghoul.transform;
+        Instantiate(coin, new Vector3(coinTransform.position.x + 1, coinTransform.position.y + 2, coinTransform.position.z), Quaternion.Euler(-90,0,0));
         Destroy(ghoul);
     }
     public IEnumerator GoToNextScene(int sceneIndex)
