@@ -48,7 +48,7 @@ public class Collectible : MonoBehaviour
         whileDestroying = true;
         GetComponent<MeshCollider>().enabled = false;
         AudioSource.Play();
-        Scene_one_controller.money += ValueWhenCatched;
+        GameManager.money += ValueWhenCatched;
         yield return new WaitWhile(() => AudioSource.isPlaying);
         Destroy(gameObject);
     }

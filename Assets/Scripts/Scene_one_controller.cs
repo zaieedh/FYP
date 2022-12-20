@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 public class Scene_one_controller : MonoBehaviour
 {
 
-    public Transform cameraObject, doorText, ghoulText;
+    public Transform cameraObject;
+    public InfoTextUI infoTextUI;
     public GameObject coin;
     public Animator transition;
     public Animation ghoulDeathAnimation;
-    public static int money;
 
     public static int ghoulsKilled;
 
@@ -30,13 +30,13 @@ public class Scene_one_controller : MonoBehaviour
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(cameraObject.position, cameraObject.TransformDirection(Vector3.forward), out hit, 2f, layerMask))
+        if (Physics.Raycast(cameraObject.position, cameraObject.TransformDirection(Vector3.forward), out hit, 5f, layerMask))
         {
             //Checking if Doors are in front of us
-            if (hit.transform.gameObject.name == "Door")
+            if (hit.transform.gameObject.name == "Door" && hit.distance <= 2)
             {
                 //Displaying text on UI to click E to open door
-                doorText.gameObject.SetActive(true);
+                infoTextUI.ShowInfo("Click [E] to open the door");
                 //Going to next scene (inside of house) on clicking E key
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -44,13 +44,13 @@ public class Scene_one_controller : MonoBehaviour
                 }
             
                 //Checking if Ghoul is in front of us
-            }else if(hit.transform.gameObject.name == "Ghoul")
+            }else if(hit.transform.gameObject.name == "Ghoul" && hit.distance <= 2)
             {
                 bool isDead = hit.transform.gameObject.GetComponent<Ghoul>().IsDead;
                 if (isDead == false)
                 {
                     //Displaying text on UI to click left mouse button to kill GHOUL
-                    ghoulText.gameObject.SetActive(true);
+                    infoTextUI.ShowInfo("Click [LMB] to kill Ghoul");
                     //Killing ghoul on clicking left mouse button
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -61,18 +61,32 @@ public class Scene_one_controller : MonoBehaviour
                     }
                 }
             }
+            else if(hit.transform.gameObject.GetComponent<Purchasable>() != null)
+            {
+                Purchasable purchasable = hit.transform.gameObject.GetComponent<Purchasable>();
+                if (GameManager.money < purchasable.Price)
+                    infoTextUI.ShowInfo($"You need {purchasable.Price} money to purchase {purchasable.Name}");
+                else
+                {
+                    infoTextUI.ShowInfo($"Click [RMB] if you wanna purchase {purchasable.Name}");
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        GameManager.money -= purchasable.Price;
+                        purchasable.OnPurchase();
+                        StartCoroutine(infoTextUI.ShowInfo($"You purchased {purchasable.Name}", 1));
+                    }
+                }
+            }
             else
             {
                 //Hiding UI tips when we dont point on Ghoul or Doors
-                ghoulText.gameObject.SetActive(false);
-                doorText.gameObject.SetActive(false);
+                infoTextUI.Hide();
             }
         }
         else
         {
             //Hiding UI tips when we dont point on any object
-            ghoulText.gameObject.SetActive(false);
-            doorText.gameObject.SetActive(false);
+            infoTextUI.Hide();
         }
     }
     //Setting transition between scenes and going to next scene
@@ -90,8 +104,7 @@ public class Scene_one_controller : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        ghoulText.gameObject.SetActive(false);
-        doorText.gameObject.SetActive(false);
+        infoTextUI.Hide();
 
         transition.SetTrigger("End");
 

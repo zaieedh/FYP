@@ -8,6 +8,6 @@ public class MoneyUIText : MonoBehaviour
     void Update()
     {
         //Updating money UI text
-        GetComponent<TextMeshProUGUI>().text = "Money: " + Scene_one_controller.money.ToString();
+        GetComponent<TextMeshProUGUI>().text = "Money: " + GameManager.money.ToString();
     }
 }

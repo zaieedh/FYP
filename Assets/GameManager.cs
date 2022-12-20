@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1;
         }
     }
+    public static int money;
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     // Update is called once per frame
     void Update()
     {

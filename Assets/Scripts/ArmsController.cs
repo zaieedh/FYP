@@ -11,17 +11,22 @@ public class ArmsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Assigning animator object
         animator = GetComponent<Animator>();
+        //Assigning audio source
         playerAudioSource = GetComponentInParent<PlayerScript>().gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Checking if menu is not opened
         if (!GameManager.isMenuOpened)
         {
+            //Attack with knife if player clicks left mouse button
             if (Input.GetMouseButtonDown(0))
                 AttackKnife();
+            //Move left arm if player clicks right mouse button
             else if (Input.GetMouseButtonDown(1))
                 MoveLeftArm();
         }
