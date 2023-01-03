@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    
     private void Start()
     {
         GetComponent<Rigidbody>().sleepThreshold = 0;

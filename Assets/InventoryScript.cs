@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryScript : MonoBehaviour
 {
@@ -41,7 +42,8 @@ public class InventoryScript : MonoBehaviour
 
             var inventoryItem = Instantiate(InventoryItemPrefab, emptySlot.transform);
             inventoryItem.GetComponent<InventoryItem>().itemPicture = purchasable.InventoryImage;
-            
+            inventoryItem.GetComponent<InventoryItem>().Purchasable = purchasable;
+            inventoryItem.GetComponent<Button>().onClick.AddListener(() => inventoryItem.GetComponent<InventoryItem>().OnClick());
             return true;
         }
         else

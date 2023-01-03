@@ -3,24 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum AimModes
+{
+    Far,
+    Close
+}
 public class Scene_one_controller : MonoBehaviour
 {
-
     public Transform cameraObject;
     public InfoTextUI infoTextUI;
     public GameObject coin;
     public Animator transition;
     public Animation ghoulDeathAnimation;
+    public AimModes aimMode;
+    
+    public float hitDistanceClose = 5;
+    public float hitDistanceFar = 50;
+
+    public float fieldOfViewClose = 50;
+    public float fieldOfViewFar = 10;
 
     public static int ghoulsKilled;
 
     private void Start()
     {
-
+        aimMode = AimModes.Close;
     }
 
     private void FixedUpdate()
     {
+        if (AimController.Instance != null)
+        {
+            if (aimMode == AimModes.Close)
+            {
+                cameraObject.gameObject.GetComponent<Camera>().fieldOfView = fieldOfViewClose;
+            }
+            else
+            {
+                cameraObject.gameObject.GetComponent<Camera>().fieldOfView = fieldOfViewFar;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            aimMode = AimModes.Far;
+        else
+            aimMode = AimModes.Close;
+
         // Bit shift the index of the layer (8) to get a bit mask
         int layerMask = 1 << 8;
 
@@ -30,10 +58,10 @@ public class Scene_one_controller : MonoBehaviour
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(cameraObject.position, cameraObject.TransformDirection(Vector3.forward), out hit, 5f, layerMask))
+        if (Physics.Raycast(cameraObject.position, cameraObject.TransformDirection(Vector3.forward), out hit, aimMode == AimModes.Close ? hitDistanceClose : hitDistanceFar , layerMask))
         {
             //Checking if Doors are in front of us
-            if (hit.transform.gameObject.name == "Door" && hit.distance <= 2)
+            if (hit.transform.gameObject.name == "Door" && hit.distance <= 2 && aimMode == AimModes.Close)
             {
                 //Displaying text on UI to click E to open door
                 infoTextUI.ShowInfo("Click [E] to open the door");
@@ -44,11 +72,13 @@ public class Scene_one_controller : MonoBehaviour
                 }
             
                 //Checking if Ghoul is in front of us
-            }else if(hit.transform.gameObject.name == "Ghoul" && hit.distance <= 2)
+            }else if(hit.transform.gameObject.name == "Ghoul" && hit.distance <= (aimMode == AimModes.Close?4:hitDistanceFar))
             {
+                
                 bool isDead = hit.transform.gameObject.GetComponent<Ghoul>().IsDead;
                 if (isDead == false)
                 {
+                    AimController.Instance.ChangeAimSprite(false);
                     //Displaying text on UI to click left mouse button to kill GHOUL
                     infoTextUI.ShowInfo("Click [LMB] to kill Ghoul");
                     //Killing ghoul on clicking left mouse button
@@ -81,13 +111,16 @@ public class Scene_one_controller : MonoBehaviour
             {
                 //Hiding UI tips when we dont point on Ghoul or Doors
                 infoTextUI.Hide();
+                AimController.Instance.ChangeAimSprite(true);
             }
         }
         else
         {
             //Hiding UI tips when we dont point on any object
             infoTextUI.Hide();
+            AimController.Instance.ChangeAimSprite(true);
         }
+        
     }
     //Setting transition between scenes and going to next scene
     IEnumerator RemoveGhoulFromScene(GameObject ghoul)

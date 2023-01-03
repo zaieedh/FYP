@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+public class WeaponManager : MonoBehaviour
+{
+    public static WeaponManager Instance { get; private set; }
+    private void Awake()
+    {
+        // If there is an instance, and it's not me, delete myself.
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    public void ChangeWeapon(GameObject weapon)
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        var instantiatedWeapon = Instantiate(weapon, transform);
+        instantiatedWeapon.SetActive(true);
+    }
+}

@@ -999,6 +999,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsDead: 0
+  Health: 100
+  Damage: 10
+  AttackDistance: 1.5
+  WalkTowardsPlayerDistance: 10
+  RunTowardsPlayerDistance: 25
+  AttackSpeed: 2
+  WalkSpeed: 0.1
+  RunSpeed: 0.3
+  WalkAnimationName: Walk
+  RunAnimationName: Run
+  AttackAnimationName: Attack1
 --- !u!82 &3094260888356031816
 AudioSource:
   m_ObjectHideFlags: 0
