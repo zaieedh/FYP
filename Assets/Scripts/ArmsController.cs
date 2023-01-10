@@ -6,8 +6,24 @@ public class ArmsController : MonoBehaviour
 {
     public GameObject leftArm, rightArm;
     private Animator animator;
-    private AudioSource playerAudioSource;
+    public AudioSource playerAudioSource;
     public AudioClip stabSound;
+
+    public static ArmsController Instance { get; private set; }
+    
+    private void Awake()
+    {
+        // If there is an instance, and it's not me, delete myself.
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -17,31 +33,14 @@ public class ArmsController : MonoBehaviour
         playerAudioSource = GetComponentInParent<PlayerScript>().gameObject.GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Checking if menu is not opened
-        if (!GameManager.isMenuOpened)
-        {
-            //Attack with knife if player clicks left mouse button
-            if (Input.GetMouseButtonDown(0))
-                AttackKnife();
-            //Move left arm if player clicks right mouse button
-            else if (Input.GetMouseButtonDown(1))
-                MoveLeftArm();
-        }
-    }
-
-    void MoveLeftArm()
+    public void MoveLeftArm()
     {
         animator.SetTrigger("moveLeftArm");
         
     }
 
-    void AttackKnife()
+    public void MoveRightArm()
     {
         animator.SetTrigger("attackKnife");
-        playerAudioSource.clip = stabSound;
-        playerAudioSource.Play();
     }
 }

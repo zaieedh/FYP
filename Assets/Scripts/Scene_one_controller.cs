@@ -3,52 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum AimModes
-{
-    Far,
-    Close
-}
+
 public class Scene_one_controller : MonoBehaviour
 {
-    public Transform cameraObject;
     public InfoTextUI infoTextUI;
     public GameObject coin;
     public Animator transition;
     public Animation ghoulDeathAnimation;
-    public AimModes aimMode;
+    
     
     public float hitDistanceClose = 5;
     public float hitDistanceFar = 50;
-
-    public float fieldOfViewClose = 50;
-    public float fieldOfViewFar = 10;
 
     public static int ghoulsKilled;
 
     private void Start()
     {
-        aimMode = AimModes.Close;
+        
     }
 
     private void FixedUpdate()
     {
-        if (AimController.Instance != null)
-        {
-            if (aimMode == AimModes.Close)
-            {
-                cameraObject.gameObject.GetComponent<Camera>().fieldOfView = fieldOfViewClose;
-            }
-            else
-            {
-                cameraObject.gameObject.GetComponent<Camera>().fieldOfView = fieldOfViewFar;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-            aimMode = AimModes.Far;
-        else
-            aimMode = AimModes.Close;
-
         // Bit shift the index of the layer (8) to get a bit mask
         int layerMask = 1 << 8;
 
@@ -58,10 +33,10 @@ public class Scene_one_controller : MonoBehaviour
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(cameraObject.position, cameraObject.TransformDirection(Vector3.forward), out hit, aimMode == AimModes.Close ? hitDistanceClose : hitDistanceFar , layerMask))
+        if (Physics.Raycast(PlayerCam.Instance.transform.position, PlayerCam.Instance.transform.TransformDirection(Vector3.forward), out hit, WeaponManager.Instance.CurrentWeapon.Range, layerMask))
         {
             //Checking if Doors are in front of us
-            if (hit.transform.gameObject.name == "Door" && hit.distance <= 2 && aimMode == AimModes.Close)
+            if (hit.transform.gameObject.name == "Door" && hit.distance <= 2)
             {
                 //Displaying text on UI to click E to open door
                 infoTextUI.ShowInfo("Click [E] to open the door");
@@ -72,7 +47,7 @@ public class Scene_one_controller : MonoBehaviour
                 }
             
                 //Checking if Ghoul is in front of us
-            }else if(hit.transform.gameObject.name == "Ghoul" && hit.distance <= (aimMode == AimModes.Close?4:hitDistanceFar))
+            }else if(hit.transform.gameObject.name == "Ghoul")
             {
                 
                 bool isDead = hit.transform.gameObject.GetComponent<Ghoul>().IsDead;
@@ -91,15 +66,15 @@ public class Scene_one_controller : MonoBehaviour
                     }
                 }
             }
-            else if(hit.transform.gameObject.GetComponent<Purchasable>() != null)
+            else if(hit.transform.gameObject.GetComponent<Purchasable>() != null && hit.distance <= 5)
             {
                 Purchasable purchasable = hit.transform.gameObject.GetComponent<Purchasable>();
                 if (GameManager.money < purchasable.Price)
                     infoTextUI.ShowInfo($"You need {purchasable.Price} money to purchase {purchasable.Name}");
                 else
                 {
-                    infoTextUI.ShowInfo($"Click [RMB] if you wanna purchase {purchasable.Name}");
-                    if (Input.GetMouseButtonDown(1))
+                    infoTextUI.ShowInfo($"Click [Q] if you wanna purchase {purchasable.Name}");
+                    if (Input.GetKeyDown(KeyCode.Q))
                     {
                         GameManager.money -= purchasable.Price;
                         purchasable.OnPurchase();

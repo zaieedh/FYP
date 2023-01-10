@@ -12,9 +12,19 @@ public class PlayerCam : MonoBehaviour
     float xRotation;
     float yRotation;
 
-    private void Start()
+    public static PlayerCam Instance { get; private set; }
+    private void Awake()
     {
+        // If there is an instance, and it's not me, delete myself.
 
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     private void Update()
