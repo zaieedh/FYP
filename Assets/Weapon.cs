@@ -18,6 +18,11 @@ public class Weapon : MonoBehaviour
             //Do melee attack
             ArmsController.Instance.MoveRightArm();
         }
+        else
+        {
+            //Do ranged attack
+            ArmsController.Instance.ShotGun();
+        }
         ArmsController.Instance.playerAudioSource.clip = sound;
         ArmsController.Instance.playerAudioSource.Play();
     }

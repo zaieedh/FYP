@@ -34,10 +34,16 @@ public class WeaponManager : MonoBehaviour
 
     public void ChangeWeapon(GameObject weapon)
     {
-        foreach (Transform child in transform)
+        /*if (CurrentWeapon != null)
         {
-            Destroy(child.gameObject);
-        }
+            CurrentWeapon.gameObject.SetActive(false);
+        }*/
+
+        //PUT IN INVENTORY THEN REMOVE
+        Purchasable copy = Instantiate(CurrentWeapon.gameObject.GetComponent<Purchasable>());
+        FindObjectOfType<InventoryScript>().AddToInventory(copy);
+        FindObjectOfType<InventoryScript>().RemoveFromInventory(weapon.gameObject.GetComponent<Purchasable>());
+        Destroy(CurrentWeapon.gameObject);
         var instantiatedWeapon = Instantiate(weapon, transform);
         instantiatedWeapon.SetActive(true);
         CurrentWeapon = instantiatedWeapon.GetComponent<Weapon>();

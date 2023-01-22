@@ -30,6 +30,11 @@ public class InventoryItem : MonoBehaviour
                 Purchasable.gameObject.GetComponent<Transform>().localScale = new Vector3(0.1f, 0.1f, 0.1f);
                 Purchasable.gameObject.GetComponent<Transform>().localPosition = new Vector3(0.0f, 0.0f, 0.0f);
                 Purchasable.gameObject.GetComponent<Transform>().localRotation = Quaternion.Euler(-15.705f, -274.068f, 214.923f);
+            }else if(Purchasable.Name == "Knife")
+            {
+                Purchasable.gameObject.GetComponent<Transform>().localScale = new Vector3(1,1,1);
+                Purchasable.gameObject.GetComponent<Transform>().localPosition = new Vector3(0,0,0);
+                Purchasable.gameObject.GetComponent<Transform>().localRotation = Quaternion.Euler(-180f, -180f, -180f);
             }
             WeaponManager.Instance.ChangeWeapon(Purchasable.gameObject);
         }

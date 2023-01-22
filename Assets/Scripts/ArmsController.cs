@@ -43,4 +43,9 @@ public class ArmsController : MonoBehaviour
     {
         animator.SetTrigger("attackKnife");
     }
+
+    public void ShotGun()
+    {
+        animator.SetTrigger("shotGun");
+    }
 }

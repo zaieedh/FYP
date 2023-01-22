@@ -51,4 +51,26 @@ public class InventoryScript : MonoBehaviour
             return false;
         }
     }
+
+    public bool RemoveFromInventory(Purchasable purchasable)
+    {
+        if (Slots.Count > 0)
+        {
+
+            for (int i = 0; i < NumberOfSlots; i++)
+            {
+                if (Slots[i].transform.GetComponentInChildren<InventoryItem>()?.Purchasable == purchasable)
+                {
+                    Destroy(Slots[i].transform.GetComponentInChildren<InventoryItem>().gameObject);
+                    break;
+                }
+            }
+            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
