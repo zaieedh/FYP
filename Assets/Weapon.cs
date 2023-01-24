@@ -9,21 +9,57 @@ public class Weapon : MonoBehaviour
     public string Name = "Weapon";
     public bool IsEquipped = false;
     public bool IsMelee = false;
-    public AudioClip sound;
+    public AudioClip sound, noAmmoSound;
+    [SerializeField]
+    private int ammo = 0;
+    public int Ammo
+    {
+        get
+        {
+            return IsMelee ? 0 : ammo;
+        }
+        set
+        {
+            ammo = value;
+            WeaponRelatedUI.Instance.ammoText.text = ammo.ToString();
+        }
+    }
+    [SerializeField]
+    private int maxAmmo = 0;
+    public int MaxAmmo
+    {
+        get
+        {
+            return IsMelee ? 0 : maxAmmo;
+        }
+        set
+        {
+            maxAmmo = value;
+            WeaponRelatedUI.Instance.maxAmmoText.text = maxAmmo.ToString();
+        }
+    }
 
     public void Attack()
     {
-        if (IsMelee)
+        if (IsMelee || Ammo > 0)
         {
-            //Do melee attack
-            ArmsController.Instance.MoveRightArm();
+            if (IsMelee)
+            {
+                //Do melee attack
+                ArmsController.Instance.MoveRightArm();
+            }
+            else
+            {
+                //Do ranged attack
+                ArmsController.Instance.ShotGun();
+                Ammo-=1;
+            }
+            ArmsController.Instance.playerAudioSource.clip = sound;
+            ArmsController.Instance.playerAudioSource.Play();
         }
         else
         {
-            //Do ranged attack
-            ArmsController.Instance.ShotGun();
+            StartCoroutine(InfoTextUI.Instance.ShowInfo("No ammo", 2));
         }
-        ArmsController.Instance.playerAudioSource.clip = sound;
-        ArmsController.Instance.playerAudioSource.Play();
     }
 }

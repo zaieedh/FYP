@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Scene_one_controller : MonoBehaviour
 {
-    public InfoTextUI infoTextUI;
     public GameObject coin;
     public Animator transition;
     public Animation ghoulDeathAnimation;
@@ -39,7 +38,7 @@ public class Scene_one_controller : MonoBehaviour
             if (hit.transform.gameObject.name == "Door" && hit.distance <= 2)
             {
                 //Displaying text on UI to click E to open door
-                infoTextUI.ShowInfo("Click [E] to open the door");
+                InfoTextUI.Instance.ShowInfo("Click [E] to open the door");
                 //Going to next scene (inside of house) on clicking E key
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -55,9 +54,9 @@ public class Scene_one_controller : MonoBehaviour
                 {
                     AimController.Instance.ChangeAimSprite(false);
                     //Displaying text on UI to click left mouse button to kill GHOUL
-                    infoTextUI.ShowInfo("Click [LMB] to kill Ghoul");
+                    InfoTextUI.Instance.ShowInfo("Click [LMB] to kill Ghoul");
                     //Killing ghoul on clicking left mouse button
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0) && (WeaponManager.Instance.CurrentWeapon.IsMelee || WeaponManager.Instance.CurrentWeapon.Ammo > 0))
                     {
                         hit.transform.gameObject.GetComponent<Animation>().Play("Death");
                         hit.transform.gameObject.GetComponent<Ghoul>().IsDead = true;
@@ -70,29 +69,27 @@ public class Scene_one_controller : MonoBehaviour
             {
                 Purchasable purchasable = hit.transform.gameObject.GetComponent<Purchasable>();
                 if (GameManager.money < purchasable.Price)
-                    infoTextUI.ShowInfo($"You need {purchasable.Price} money to purchase {purchasable.Name}");
+                    InfoTextUI.Instance.ShowInfo($"You need {purchasable.Price} money to purchase {purchasable.Name}");
                 else
                 {
-                    infoTextUI.ShowInfo($"Click [Q] if you wanna purchase {purchasable.Name}");
+                    InfoTextUI.Instance.ShowInfo($"Click [Q] if you wanna purchase {purchasable.Name}");
                     if (Input.GetKeyDown(KeyCode.Q))
                     {
                         GameManager.money -= purchasable.Price;
                         purchasable.OnPurchase();
-                        StartCoroutine(infoTextUI.ShowInfo($"You purchased {purchasable.Name}", 1));
+                        StartCoroutine(InfoTextUI.Instance.ShowInfo($"You purchased {purchasable.Name}", 1));
                     }
                 }
             }
             else
             {
-                //Hiding UI tips when we dont point on Ghoul or Doors
-                infoTextUI.Hide();
+                InfoTextUI.Instance.Hide();
                 AimController.Instance.ChangeAimSprite(true);
             }
         }
         else
         {
-            //Hiding UI tips when we dont point on any object
-            infoTextUI.Hide();
+            InfoTextUI.Instance.Hide();
             AimController.Instance.ChangeAimSprite(true);
         }
         
@@ -112,7 +109,7 @@ public class Scene_one_controller : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        infoTextUI.Hide();
+        InfoTextUI.Instance.Hide();
 
         transition.SetTrigger("End");
 

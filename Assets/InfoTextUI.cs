@@ -5,11 +5,24 @@ using UnityEngine;
 
 public class InfoTextUI : MonoBehaviour
 {
-    TextMeshProUGUI text; 
-    void Start()
+    TextMeshProUGUI text;
+    public static InfoTextUI Instance { get; private set; }
+
+    private void Awake()
     {
+        // If there is an instance, and it's not me, delete myself.
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         text = GetComponentInChildren<TextMeshProUGUI>();
-        gameObject.SetActive(false);
+        Hide();
     }
 
     public void ShowInfo(string content)
