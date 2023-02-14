@@ -36,36 +36,39 @@ public class AimController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (AimController.Instance != null)
+        if (PlayerCam.Instance != null)
         {
-            if (aimMode == AimModes.Close)
+            if (Instance != null)
             {
-                PlayerCam.Instance.gameObject.GetComponent<Camera>().fieldOfView = fieldOfViewClose;
-            }
-            else
-            {
-                PlayerCam.Instance.gameObject.GetComponent<Camera>().fieldOfView = fieldOfViewFar;
-            }
-        }
-
-        if (!WeaponManager.Instance.CurrentWeapon.IsMelee)
-        {
-            if (Input.GetMouseButtonDown(1) && !aiming)
-            {
-                aiming = true;
                 if (aimMode == AimModes.Close)
                 {
-                    aimMode = AimModes.Far;
+                    PlayerCam.Instance.gameObject.GetComponent<Camera>().fieldOfView = fieldOfViewClose;
                 }
                 else
                 {
-                    aimMode = AimModes.Close;
+                    PlayerCam.Instance.gameObject.GetComponent<Camera>().fieldOfView = fieldOfViewFar;
                 }
             }
 
-            if (Input.GetMouseButtonUp(1))
+            if (!WeaponManager.Instance.CurrentWeapon.IsMelee)
             {
-                aiming = false;
+                if (Input.GetMouseButtonDown(1) && !aiming)
+                {
+                    aiming = true;
+                    if (aimMode == AimModes.Close)
+                    {
+                        aimMode = AimModes.Far;
+                    }
+                    else
+                    {
+                        aimMode = AimModes.Close;
+                    }
+                }
+
+                if (Input.GetMouseButtonUp(1))
+                {
+                    aiming = false;
+                }
             }
         }
     }

@@ -14,7 +14,7 @@ public class PlayerScript : MonoBehaviour
     {
         if(collision.collider.gameObject.name == "Character1_RightHand")
         {
-            HealthController.Health -= 5;
+            HealthController.TakeDamage(5);
         }
     }
 }

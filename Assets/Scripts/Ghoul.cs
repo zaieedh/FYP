@@ -9,7 +9,7 @@ public class Ghoul : Enemy
     IEnumerator Attack()
     {
         AttackStarted = true;
-        HealthController.Health -= 10;
+        HealthController.TakeDamage(10);
         yield return new WaitForSeconds(1);
         AttackStarted = false;
     }

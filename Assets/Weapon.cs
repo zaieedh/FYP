@@ -39,27 +39,61 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    private bool attacking = false;
+
     public void Attack()
     {
-        if (IsMelee || Ammo > 0)
+        if (!attacking)
         {
-            if (IsMelee)
+			attacking = true;
+			if (IsMelee || Ammo > 0)
             {
-                //Do melee attack
-                ArmsController.Instance.MoveRightArm();
+                if (IsMelee)
+                {
+                    //Do melee attack
+                    ArmsController.Instance.MoveRightArm();
+					attacking = false;
+				}
+                else
+                {
+                    //Do ranged attack
+                    ArmsController.Instance.ShotGun();
+                    Ammo -= 1;
+                    StartCoroutine(WaitTillAnimationEnds());
+
+                }
+                ArmsController.Instance.playerAudioSource.clip = sound;
+                ArmsController.Instance.playerAudioSource.Play();
             }
             else
             {
-                //Do ranged attack
-                ArmsController.Instance.ShotGun();
-                Ammo-=1;
+                StartCoroutine(InfoTextUI.Instance.ShowInfo("No ammo! Click [R] to reload", 2));
+                attacking = false;
             }
-            ArmsController.Instance.playerAudioSource.clip = sound;
-            ArmsController.Instance.playerAudioSource.Play();
-        }
-        else
-        {
-            StartCoroutine(InfoTextUI.Instance.ShowInfo("No ammo", 2));
         }
     }
+
+    IEnumerator WaitTillAnimationEnds()
+    {
+        yield return new WaitForSeconds(0.4f);
+        attacking = false;
+    }
+
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.R) && Ammo == 0)
+        {
+            StartCoroutine(ReloadAmmo());
+        }
+	}
+
+	IEnumerator ReloadAmmo()
+    {
+        MaxAmmo -= 1;
+        if (MaxAmmo > 0)
+        {
+            yield return new WaitForSeconds(0f);
+            Ammo = 10;
+        }
+	}
 }
