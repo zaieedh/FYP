@@ -470,6 +470,7 @@ MonoBehaviour:
   InventoryImage: {fileID: 2800000, guid: 8f3e0d13876ffef4ebde3cf3f3707594, type: 3}
   Type: 0
   Purchased: 0
+  QuickSlotId: 0
 --- !u!114 &5789834003636746317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +489,9 @@ MonoBehaviour:
   IsEquipped: 0
   IsMelee: 0
   sound: {fileID: 8300000, guid: 286a2644051b41a4da6c2e7d8018a2ce, type: 3}
+  noAmmoSound: {fileID: 0}
+  ammo: 5
+  maxAmmo: 10
 --- !u!65 &-582972224311373381
 BoxCollider:
   m_ObjectHideFlags: 0

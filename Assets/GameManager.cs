@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    /// <summary>
+    /// Main menu object
+    /// </summary>
     public GameObject MainMenu;
+    /// <summary>
+    /// Checking if menu is opened
+    /// </summary>
     private static bool _menuOpened;
+    /// <summary>
+    /// Setting state of menu and returning it
+    /// </summary>
     public static bool isMenuOpened
     {
         get
@@ -21,10 +30,14 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1;
         }
     }
+    /// <summary>
+    /// Money collected by user
+    /// </summary>
     public static int money;
     // Update is called once per frame
     void Update()
     {
+        //Open menu when player clicks ESC key
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             isMenuOpened = !isMenuOpened;

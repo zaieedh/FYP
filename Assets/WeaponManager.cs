@@ -5,7 +5,13 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
+    /// <summary>
+    /// Instance of weapon manager
+    /// </summary>
     public static WeaponManager Instance { get; private set; }
+    /// <summary>
+    /// Current weapon that player is using
+    /// </summary>
     public Weapon CurrentWeapon;
     private void Awake()
     {
@@ -20,11 +26,14 @@ public class WeaponManager : MonoBehaviour
             Instance = this;
         }
     }
-
+    /// <summary>
+    /// Checking if player is currently attacking
+    /// </summary>
     private bool _attacking;
 
     void FixedUpdate()
     {
+        //Attack with weapon if player clicks Left mouse button
         if (Input.GetMouseButtonDown(0))
         {
             if (CurrentWeapon != null && !_attacking)
@@ -39,7 +48,10 @@ public class WeaponManager : MonoBehaviour
             _attacking = false;
         }
     }
-
+    /// <summary>
+    /// Changing weapon, putting current weapon in inventory and instantiating new weapon to player hand
+    /// </summary>
+    /// <param name="weapon">Weapon to change on</param>
     public void ChangeWeapon(GameObject weapon)
     {
         /*if (CurrentWeapon != null)
@@ -62,6 +74,7 @@ public class WeaponManager : MonoBehaviour
         FindObjectOfType<InventoryScript>().AddToInventory(copy);
         FindObjectOfType<InventoryScript>().RemoveFromInventory(weapon.gameObject.GetComponent<Purchasable>());
         Destroy(CurrentWeapon.gameObject);
+        
         var instantiatedWeapon = Instantiate(weapon, transform);
         instantiatedWeapon.SetActive(true);
         CurrentWeapon = instantiatedWeapon.GetComponent<Weapon>();

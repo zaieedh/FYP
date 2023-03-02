@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+	/// <summary>
+	/// Audio souce assigned to main menu
+	/// </summary>
 	AudioSource startingNoise;
 	//Loads Next Scene
 	void Awake()
@@ -20,15 +23,18 @@ public class MainMenu : MonoBehaviour
 		DestroyImmediate(CanvasScript.Instance.gameObject);
 	}
 
+	/// <summary>
+	/// Starting a game
+	/// </summary>
 	public void ButtonHandlerPlay()
 	{
-
 		StartCoroutine(PlaySoundAndStartGame());
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-
-
-
 	}
+	/// <summary>
+	/// Playing sound on game start
+	/// </summary>
+	/// <returns></returns>
 	IEnumerator PlaySoundAndStartGame()
 	{
 		startingNoise.Play();

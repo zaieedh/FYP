@@ -6,13 +6,30 @@ using UnityEngine.SceneManagement;
 
 public class Scene_one_controller : MonoBehaviour
 {
+    /// <summary>
+    /// Instance of coin gameobject
+    /// </summary>
     public GameObject coin;
+    /// <summary>
+    /// Animator of scene transitions
+    /// </summary>
     public Animator transition;
+    /// <summary>
+    /// Animation played once ghould dying
+    /// </summary>
     public Animation ghoulDeathAnimation;
     
-    
+    /// <summary>
+    /// Players hit distance on close aim mode
+    /// </summary>
     public float hitDistanceClose = 5;
+    /// <summary>
+    /// Players hit distance on far aim mode
+    /// </summary>
     public float hitDistanceFar = 50;
+    /// <summary>
+    /// Amount of ghouls killed
+    /// </summary>
 
     public static int ghoulsKilled;
 
@@ -67,12 +84,14 @@ public class Scene_one_controller : MonoBehaviour
             }
             else if(hit.transform.gameObject.GetComponent<Purchasable>() != null && hit.distance <= 5)
             {
+                //Performing actions once player aims on purchasable item, displaying UI informing player about possible actions he can do with this item
                 Purchasable purchasable = hit.transform.gameObject.GetComponent<Purchasable>();
                 if (GameManager.money < purchasable.Price)
                     InfoTextUI.Instance.ShowInfo($"You need {purchasable.Price} money to purchase {purchasable.Name}");
                 else
                 {
                     InfoTextUI.Instance.ShowInfo($"Click [Q] if you wanna purchase {purchasable.Name}");
+                    //If player clicks Q key, he will purchase item for money he collected
                     if (Input.GetKeyDown(KeyCode.Q))
                     {
                         GameManager.money -= purchasable.Price;
@@ -103,6 +122,11 @@ public class Scene_one_controller : MonoBehaviour
         Instantiate(coin, new Vector3(coinTransform.position.x + 1, coinTransform.position.y + 2, coinTransform.position.z), Quaternion.Euler(-90,0,0));
         Destroy(ghoul);
     }
+    /// <summary>
+    /// Going to next scene
+    /// </summary>
+    /// <param name="sceneIndex">Index of scene to go to</param>
+    /// <returns></returns>
     public IEnumerator GoToNextScene(int sceneIndex)
     {
         transition.SetTrigger("Start");

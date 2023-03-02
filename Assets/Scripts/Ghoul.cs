@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class Ghoul : Enemy
 {
+    /// <summary>
+    /// Checking if attack started
+    /// </summary>
     bool AttackStarted;
-
+    /// <summary>
+    /// Dealing damage to player once it gets in contact with enemy
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Attack()
     {
         AttackStarted = true;

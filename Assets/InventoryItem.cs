@@ -4,9 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 public class InventoryItem : MonoBehaviour
 {
+    /// <summary>
+    /// Object that will be Purchased and placed in inventory
+    /// </summary>
     public Purchasable Purchasable;
+    /// <summary>
+    /// Picture of item in inventory
+    /// </summary>
     private Texture2D _itemPicture;
-    public Texture2D itemPicture
+	/// Picture of item in inventory
+	public Texture2D itemPicture
     {
         get
         {
@@ -22,6 +29,10 @@ public class InventoryItem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Action that will invoke once player clicks on inventory item
+    /// if its a weapon, player will change the current weapon on the one clicked and his old weapon will be placed in inventory
+    /// </summary>
     public void OnClick()
     {
         if(Purchasable.Type == PurchasableType.Weapon)

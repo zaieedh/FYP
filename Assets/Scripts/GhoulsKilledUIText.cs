@@ -15,6 +15,7 @@ public class GhoulsKilledUIText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Updating UI with amount of ghouls killed
         GetComponent<TextMeshProUGUI>().text = "Ghouls killed: " + Scene_one_controller.ghoulsKilled.ToString();
     }
 }
