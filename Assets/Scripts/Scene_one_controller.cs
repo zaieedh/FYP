@@ -33,10 +33,10 @@ public class Scene_one_controller : MonoBehaviour
 
     public static int ghoulsKilled;
 
-    private void Start()
-    {
-        
-    }
+    /// <summary>
+    /// Quests manager, containing all the informations about quests
+    /// </summary>
+    public QuestsManager questsManager;
 
     private void FixedUpdate()
     {
@@ -78,6 +78,7 @@ public class Scene_one_controller : MonoBehaviour
                         hit.transform.gameObject.GetComponent<Animation>().Play("Death");
                         hit.transform.gameObject.GetComponent<Ghoul>().IsDead = true;
                         ghoulsKilled++;
+                        questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill Zombies").CurrentProgress++;
                         StartCoroutine(RemoveGhoulFromScene(hit.transform.gameObject));
                     }
                 }
