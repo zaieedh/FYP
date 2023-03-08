@@ -6,7 +6,10 @@ public class QuestsGuiManager : MonoBehaviour
 {
 	public GameObject QuestTaskGuiPrefab;
 	public GameObject QuestGuiPrefab;
-
+	private void Awake()
+	{
+		DontDestroyOnLoad(this);
+	}
 	private void Start()
 	{
 		var questsManager = FindObjectOfType<Scene_one_controller>().questsManager;
@@ -16,6 +19,18 @@ public class QuestsGuiManager : MonoBehaviour
 			questGui.GetComponent<QuestGui>().Quest = quest;
 			questGui.GetComponent<QuestGui>().UpdateGui();
 			questGui.GetComponent<QuestGui>().AddTasks(QuestTaskGuiPrefab);
+		}
+	}
+
+	public void UpdateGUI()
+	{
+		foreach(QuestGui qg in FindObjectsOfType<QuestGui>())
+		{
+			qg.UpdateGui();
+		}
+		foreach (TaskGui qt in FindObjectsOfType<TaskGui>())
+		{
+			qt.UpdateGui();
 		}
 	}
 }

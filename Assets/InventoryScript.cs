@@ -127,4 +127,22 @@ public class InventoryScript : MonoBehaviour
             return false;
         }
     }
+
+    public Purchasable GetInventoryItemByName(string name)
+    {
+        if (Slots.Count > 0)
+        {
+
+            for (int i = 0; i < NumberOfSlots; i++)
+            {
+                Purchasable purchasable = Slots[i].transform.GetComponentInChildren<InventoryItem>()?.Purchasable;
+
+				if (purchasable!=null && purchasable.Name == name)
+                {
+                    return purchasable;
+                }
+            }
+        }
+        return null;
+    }
 }

@@ -55,7 +55,7 @@ public class Collectible : MonoBehaviour
         whileDestroying = true;
         GetComponent<MeshCollider>().enabled = false;
         AudioSource.Play();
-        HealthController.Health += ValueWhenCatched;
+        FindObjectOfType<HealthController>().Health += ValueWhenCatched;
         yield return new WaitWhile(() => AudioSource.isPlaying);
         Destroy(gameObject);
     }

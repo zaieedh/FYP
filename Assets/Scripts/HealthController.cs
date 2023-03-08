@@ -6,16 +6,55 @@ using UnityEngine.UI;
 //Health controller, setting HP and updating UI bar
 public class HealthController : MonoBehaviour
 {
+    private int health;
     /// <summary>
     /// Health of player
     /// </summary>
-    [Range(0,100)]
-    public static int Health;
+    public int Health
+    {
+        get
+        {
+            return health;
+        }
+        set
+        {
+            health = value;
+			if (health <= 0)
+			{
+				if (!dying)
+				{
+					dying = true;
+					FindObjectOfType<GameManager>().GoToNextScene(0);
+				}
+				health = 0;
+			}
+			else if (health > 100)
+				health = 100;
+			HealthBar.value = 100 - health;
+			HealthText.text = health.ToString();
+		}
+    }
+    private int shield;
     /// <summary>
     /// Shield of player
     /// </summary>
-    [Range(0, 100)]
-    public static int Shield;
+    public int Shield
+    {
+        get
+        {
+            return shield;
+        }
+        set
+        {
+            shield = value;
+			if (shield > 100)
+				shield = 100;
+			else if (shield < 0)
+				shield = 0;
+			ShieldBar.value = 100 - shield;
+            ShieldText.text = shield.ToString();
+		}
+    }
     /// <summary>
     /// UI Health bar
     /// </summary>
@@ -44,40 +83,11 @@ public class HealthController : MonoBehaviour
     /// </summary>
     private bool dying = false;
 
-    private void Update()
-    {
-        //Updating health and shield UI based on their values, if health goes below 0, GAME RESTARTS
-        if (FindObjectOfType<Scene_one_controller>() != null)
-        {
-            if (Health <= 0)
-            {
-                if (!dying)
-                {
-                    dying = true;
-                    StartCoroutine(FindObjectOfType<Scene_one_controller>().GoToNextScene(0));
-                }
-                Health = 0;
-            }
-            else if (Health > 100)
-                Health = 100;
-
-            if(Shield > 100)
-                Shield = 100;
-            else if(Shield < 0)
-                Shield = 0;
-
-            HealthBar.value = 100 - Health;
-            HealthText.text = Health.ToString();
-
-			ShieldBar.value = 100 - Shield;
-			ShieldText.text = Shield.ToString();
-		}
-    }
     /// <summary>
     /// Taking damage by player, if player has shield on, first damage will go through it, then it will lower his health
     /// </summary>
     /// <param name="damage">Amount of damage taken</param>
-    public static void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         if(Shield > 0)
         {

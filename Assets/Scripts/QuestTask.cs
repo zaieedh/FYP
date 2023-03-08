@@ -18,4 +18,13 @@ public class QuestTask
 	public int CurrentProgress;
 	public int RequiredProgress;
 	public bool IsCompleted;
+
+	public void UpdateProgress(int d)
+	{
+		CurrentProgress+=d;
+		if (CurrentProgress >= RequiredProgress)
+		{
+			IsCompleted = true;
+		}
+	}
 }

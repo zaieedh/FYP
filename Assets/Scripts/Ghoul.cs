@@ -15,7 +15,7 @@ public class Ghoul : Enemy
     IEnumerator Attack()
     {
         AttackStarted = true;
-        HealthController.TakeDamage(10);
+        FindObjectOfType<HealthController>().TakeDamage(10);
         yield return new WaitForSeconds(1);
         AttackStarted = false;
     }

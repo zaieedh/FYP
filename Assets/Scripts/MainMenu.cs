@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
 	private void Start()
 	{
 		Debug.Log("In start");
-		DestroyImmediate(CanvasScript.Instance.gameObject);
+		DestroyImmediate(FindObjectOfType<CanvasScript>().gameObject);
 	}
 
 	/// <summary>

@@ -38,7 +38,16 @@ public class Scene_one_controller : MonoBehaviour
     /// </summary>
     public QuestsManager questsManager;
 
-    private void FixedUpdate()
+	/// <summary>
+	/// Quests GUI manager, display on GUI informations about quests
+	/// </summary>
+	public QuestsGuiManager questsGuiManager;
+    /// <summary>
+    /// GameManager instance with functionalities used in many classes
+    /// </summary>
+    public GameManager gameManager;
+
+	private void FixedUpdate()
     {
         // Bit shift the index of the layer (8) to get a bit mask
         int layerMask = 1 << 8;
@@ -52,18 +61,7 @@ public class Scene_one_controller : MonoBehaviour
         if (Physics.Raycast(PlayerCam.Instance.transform.position, PlayerCam.Instance.transform.TransformDirection(Vector3.forward), out hit, WeaponManager.Instance.CurrentWeapon.Range, layerMask))
         {
             //Checking if Doors are in front of us
-            if (hit.transform.gameObject.name == "Door" && hit.distance <= 2)
-            {
-                //Displaying text on UI to click E to open door
-                InfoTextUI.Instance.ShowInfo("Click [E] to open the door");
-                //Going to next scene (inside of house) on clicking E key
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    StartCoroutine(GoToNextScene(1));
-                }
-            
-                //Checking if Ghoul is in front of us
-            }else if(hit.transform.gameObject.name == "Ghoul")
+            if(hit.transform.gameObject.name == "Ghoul")
             {
                 
                 bool isDead = hit.transform.gameObject.GetComponent<Ghoul>().IsDead;
@@ -78,7 +76,8 @@ public class Scene_one_controller : MonoBehaviour
                         hit.transform.gameObject.GetComponent<Animation>().Play("Death");
                         hit.transform.gameObject.GetComponent<Ghoul>().IsDead = true;
                         ghoulsKilled++;
-                        questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill Zombies").CurrentProgress++;
+                        questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill 5 Zombies").UpdateProgress(1);
+                        questsGuiManager.UpdateGUI();
                         StartCoroutine(RemoveGhoulFromScene(hit.transform.gameObject));
                     }
                 }
@@ -101,7 +100,36 @@ public class Scene_one_controller : MonoBehaviour
                     }
                 }
             }
-            else
+			else if (hit.transform.gameObject.GetComponent<Door>() != null && hit.distance <= 2)
+			{
+				var door = hit.transform.gameObject.GetComponent<Door>();
+                if (door.RequiresKey)
+                {
+					InfoTextUI.Instance.ShowInfo($"Find [{door.Key.Name}] to open the door");
+                    Purchasable key = FindObjectOfType<InventoryScript>().GetInventoryItemByName(door.Key.Name);
+                    if(key != null)
+                    {
+						//Displaying text on UI to click E to open door
+						InfoTextUI.Instance.ShowInfo("Click [E] to open the door");
+						//Going to next scene (inside of house) on clicking E key
+						if (Input.GetKeyDown(KeyCode.E))
+						{
+							door.Open();
+						}
+					}
+				}
+                else
+                {
+                    //Displaying text on UI to click E to open door
+                    InfoTextUI.Instance.ShowInfo("Click [E] to open the door");
+                    //Going to next scene (inside of house) on clicking E key
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        door.Open();
+                    }
+                }
+			}
+			else
             {
                 InfoTextUI.Instance.Hide();
                 AimController.Instance.ChangeAimSprite(true);
@@ -122,22 +150,5 @@ public class Scene_one_controller : MonoBehaviour
         Transform coinTransform = ghoul.transform;
         Instantiate(coin, new Vector3(coinTransform.position.x + 1, coinTransform.position.y + 2, coinTransform.position.z), Quaternion.Euler(-90,0,0));
         Destroy(ghoul);
-    }
-    /// <summary>
-    /// Going to next scene
-    /// </summary>
-    /// <param name="sceneIndex">Index of scene to go to</param>
-    /// <returns></returns>
-    public IEnumerator GoToNextScene(int sceneIndex)
-    {
-        transition.SetTrigger("Start");
-
-        yield return new WaitForSeconds(1);
-
-        InfoTextUI.Instance.Hide();
-
-        transition.SetTrigger("End");
-
-        SceneManager.LoadScene(sceneIndex);
     }
 }
