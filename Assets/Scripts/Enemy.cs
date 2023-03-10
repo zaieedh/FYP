@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    /// <summary>
+    /// Name of enemy for example Ghoul
+    /// </summary>
+    public string Name;
     /// <summary>
     /// Check if enemy is dead
     /// </summary>
@@ -58,10 +63,12 @@ public class Enemy : MonoBehaviour
     /// Instance of player's object
     /// </summary>
     private GameObject Player;
+    private NavMeshAgent agent;
 
     public void Start()
     {
         Player = GameObject.Find("Player");
+        agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
@@ -115,6 +122,8 @@ public class Enemy : MonoBehaviour
     {
         GetComponent<Animation>().Play(animationName);
         transform.LookAt(Player.transform);
-        transform.position = Vector3.Lerp(transform.position, new Vector3(Player.transform.position.x - 1, Player.transform.position.y - 1, Player.transform.position.z - 1), Time.deltaTime * speed);
+        //transform.position = Vector3.Lerp(transform.position, new Vector3(Player.transform.position.x - 1, Player.transform.position.y - 1, Player.transform.position.z - 1), Time.deltaTime * speed);
+        agent.SetDestination(Player.transform.position);
+        agent.speed = speed;
     }
 }

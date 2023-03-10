@@ -60,29 +60,37 @@ public class Scene_one_controller : MonoBehaviour
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(PlayerCam.Instance.transform.position, PlayerCam.Instance.transform.TransformDirection(Vector3.forward), out hit, WeaponManager.Instance.CurrentWeapon.Range, layerMask))
         {
-            //Checking if Doors are in front of us
-            if(hit.transform.gameObject.name == "Ghoul")
+            var hitObject = hit.transform.gameObject;
+
+			if (hitObject.GetComponent(typeof(Enemy)) != null)
             {
-                
-                bool isDead = hit.transform.gameObject.GetComponent<Ghoul>().IsDead;
+                Enemy enemy = (hitObject.GetComponent(typeof(Enemy)) as Enemy);
+
+				bool isDead = enemy.IsDead;
                 if (isDead == false)
                 {
                     AimController.Instance.ChangeAimSprite(false);
                     //Displaying text on UI to click left mouse button to kill GHOUL
-                    InfoTextUI.Instance.ShowInfo("Click [LMB] to kill Ghoul");
+                    InfoTextUI.Instance.ShowInfo($"Click [LMB] to attack {enemy.Name}");
                     //Killing ghoul on clicking left mouse button
                     if (Input.GetMouseButtonDown(0) && (WeaponManager.Instance.CurrentWeapon.IsMelee || WeaponManager.Instance.CurrentWeapon.Ammo > 0))
                     {
-                        hit.transform.gameObject.GetComponent<Animation>().Play("Death");
-                        hit.transform.gameObject.GetComponent<Ghoul>().IsDead = true;
-                        ghoulsKilled++;
-                        questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill 5 Zombies").UpdateProgress(1);
+                        hitObject.GetComponent<Animation>().Play("Death");
+						(hitObject.GetComponent(typeof(Enemy)) as Enemy).IsDead = true;
+                        if (enemy.Name == "Ghoul")
+                        {
+                            ghoulsKilled++;
+                            questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill 5 Zombies").UpdateProgress(1);
+                        }else if(enemy.Name == "Big Boss")
+                        {
+						    questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill Zombie Boss").IsCompleted = true;
+						}
                         questsGuiManager.UpdateGUI();
-                        StartCoroutine(RemoveGhoulFromScene(hit.transform.gameObject));
+                        StartCoroutine(RemoveGhoulFromScene(hitObject));
                     }
                 }
             }
-            else if(hit.transform.gameObject.GetComponent<Purchasable>() != null && hit.distance <= 5)
+            else if(hitObject.GetComponent<Purchasable>() != null && hit.distance <= 5)
             {
                 //Performing actions once player aims on purchasable item, displaying UI informing player about possible actions he can do with this item
                 Purchasable purchasable = hit.transform.gameObject.GetComponent<Purchasable>();
@@ -100,7 +108,7 @@ public class Scene_one_controller : MonoBehaviour
                     }
                 }
             }
-			else if (hit.transform.gameObject.GetComponent<Door>() != null && hit.distance <= 2)
+			else if (hitObject.GetComponent<Door>() != null && hit.distance <= 2)
 			{
 				var door = hit.transform.gameObject.GetComponent<Door>();
                 if (door.RequiresKey)
