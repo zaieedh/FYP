@@ -75,18 +75,20 @@ public class Scene_one_controller : MonoBehaviour
                     //Killing ghoul on clicking left mouse button
                     if (Input.GetMouseButtonDown(0) && (WeaponManager.Instance.CurrentWeapon.IsMelee || WeaponManager.Instance.CurrentWeapon.Ammo > 0))
                     {
-                        hitObject.GetComponent<Animation>().Play("Death");
-						(hitObject.GetComponent(typeof(Enemy)) as Enemy).IsDead = true;
-                        if (enemy.Name == "Ghoul")
+						enemy.TakeDamage(WeaponManager.Instance.CurrentWeapon.Damage);
+                        if (enemy.IsDead)
                         {
-                            ghoulsKilled++;
-                            questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill 5 Zombies").UpdateProgress(1);
-                        }else if(enemy.Name == "Big Boss")
-                        {
-						    questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill Zombie Boss").IsCompleted = true;
+                            if (enemy.Name == "Ghoul")
+                            {
+                                ghoulsKilled++;
+                                questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill 5 Zombies").UpdateProgress(1);
+                            }
+                            else if (enemy.Name == "Big Boss")
+                            {
+                                questsManager.GetQuestByName("Main Quest").GetTaskByName("Kill Zombie Boss").IsCompleted = true;
+                            }
+							questsGuiManager.UpdateGUI();
 						}
-                        questsGuiManager.UpdateGUI();
-                        StartCoroutine(RemoveGhoulFromScene(hitObject));
                     }
                 }
             }
@@ -150,13 +152,5 @@ public class Scene_one_controller : MonoBehaviour
         }
         
     }
-    //Setting transition between scenes and going to next scene
-    IEnumerator RemoveGhoulFromScene(GameObject ghoul)
-    {
-        yield return new WaitForSeconds(2);
-        //Instantiating reward for killing ghoul
-        Transform coinTransform = ghoul.transform;
-        Instantiate(coin, new Vector3(coinTransform.position.x + 1, coinTransform.position.y + 2, coinTransform.position.z), Quaternion.Euler(-90,0,0));
-        Destroy(ghoul);
-    }
+    
 }

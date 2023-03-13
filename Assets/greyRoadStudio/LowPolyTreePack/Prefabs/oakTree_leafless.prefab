@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33630204741606468}
   - component: {fileID: 23861271996079508}
   - component: {fileID: 64667215755643054}
+  - component: {fileID: 1873753110204538757}
   m_Layer: 0
   m_Name: oakTree_leafless
   m_TagString: Untagged
@@ -98,3 +99,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: e3d54c8d2447c9f4b9ad5d2021da4b42, type: 3}
+--- !u!65 &1873753110204538757
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630287520782172}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8196926, y: 7.6324162, z: 0.80118847}
+  m_Center: {x: 0.073327065, y: 3.815729, z: -0.13839102}

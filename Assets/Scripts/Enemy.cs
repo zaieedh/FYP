@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class Enemy : MonoBehaviour
     /// Health of enemy
     /// </summary>
     public int Health;
+    /// <summary>
+    /// Max health of enemy
+    /// </summary>
+    public int MaxHealth;
     /// <summary>
     /// Damage enemy deals
     /// </summary>
@@ -64,11 +69,13 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private GameObject Player;
     private NavMeshAgent agent;
+    public GameObject Reward;
 
     public void Start()
     {
         Player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
+        MaxHealth = Health;
     }
 
     private void Update()
@@ -126,4 +133,31 @@ public class Enemy : MonoBehaviour
         agent.SetDestination(Player.transform.position);
         agent.speed = speed;
     }
+
+    public void TakeDamage(int damage)
+    {
+        Health -= damage;
+        GetComponentInChildren<Slider>().value = ((float)Health / MaxHealth);
+		if (Health <= 0)
+		{
+            Health = 0;
+			IsDead = true;
+            Die();
+		}
+	}
+
+    private void Die()
+    {
+		GetComponent<Animation>().Play("Death");
+        StartCoroutine(RemoveEnemyFromScene());
+	}
+
+	IEnumerator RemoveEnemyFromScene()
+	{
+		yield return new WaitForSeconds(2);
+		//Instantiating reward for killing ghoul
+		Transform rewardTransform = transform;
+		Instantiate(Reward, new Vector3(rewardTransform.position.x + 1, rewardTransform.position.y + 2, rewardTransform.position.z), Quaternion.Euler(-90, 0, 0));
+		Destroy(gameObject);
+	}
 }

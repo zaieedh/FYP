@@ -20,10 +20,10 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //If player collides with right arm of ghoul, it will take 5 dmg
-        if(collision.collider.gameObject.name == "Character1_RightHand")
+        var enemy = (collision.collider.gameObject.GetComponentInParent(typeof(Enemy)) as Enemy);
+		if (enemy != null)
         {
-            GetComponent<HealthController>().TakeDamage(5);
+            GetComponent<HealthController>().TakeDamage(enemy.Damage);
         }
     }
 }
