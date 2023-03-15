@@ -48,6 +48,16 @@ public class InventoryItem : MonoBehaviour
                 Purchasable.gameObject.GetComponent<Transform>().localRotation = Quaternion.Euler(-180f, -180f, -180f);
             }
             WeaponManager.Instance.ChangeWeapon(Purchasable.gameObject);
-        }
+        }else if(Purchasable.Type == PurchasableType.Consumable)
+        {
+            if(Purchasable.Name == "Syringe")
+            {
+                FindObjectOfType<HealthController>().Shield = 100;
+			}else if (Purchasable.Name == "Shield")
+			{
+				FindObjectOfType<HealthController>().Shield = 50;
+			}
+			FindObjectOfType<InventoryScript>().RemoveFromInventory(Purchasable);
+		}
     }
 }

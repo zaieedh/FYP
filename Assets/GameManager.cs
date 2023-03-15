@@ -35,10 +35,26 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1;
         }
     }
+    private static int _money;
     /// <summary>
     /// Money collected by user
     /// </summary>
-    public static int money;
+    public static int money
+    {
+        get
+        {
+            return _money;
+        }
+        set
+        {
+            _money = value;
+            if(_money >= 50)
+            {
+                FindObjectOfType<Scene_one_controller>().questsManager.GetQuestByName("Main Quest").GetTaskByName("Collect 50 gold").SetProgress(_money);
+                FindObjectOfType<QuestsGuiManager>().UpdateGUI();
+			}
+        }
+    }
 
     void Update()
     {

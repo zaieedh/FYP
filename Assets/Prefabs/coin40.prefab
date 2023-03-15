@@ -9,11 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7773318273524795697, guid: 414842140a9a99146813a85c270eaf4e, type: 3}
       propertyPath: m_Name
-      value: coin
+      value: coin40
       objectReference: {fileID: 0}
     - target: {fileID: 7773318273524795699, guid: 414842140a9a99146813a85c270eaf4e, type: 3}
       propertyPath: ValueWhenCatched
-      value: 40
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7773318273524795710, guid: 414842140a9a99146813a85c270eaf4e, type: 3}
       propertyPath: m_RootOrder

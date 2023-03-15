@@ -51,6 +51,11 @@ public class HealthController : MonoBehaviour
 				shield = 100;
 			else if (shield < 0)
 				shield = 0;
+            
+            if(shield == 0)
+                ShieldBar.enabled= false;
+            else ShieldBar.enabled= true;
+
 			ShieldBar.value = 100 - shield;
             ShieldText.text = shield.ToString();
 		}
@@ -76,7 +81,7 @@ public class HealthController : MonoBehaviour
     {
         //Setting up health and shield at the beggining of the game
         Health = 100;
-        Shield = 50;
+        Shield = 0;
     }
     /// <summary>
     /// Check if player is dying

@@ -27,4 +27,13 @@ public class QuestTask
 			IsCompleted = true;
 		}
 	}
+
+	public void SetProgress(int d)
+	{
+		CurrentProgress = d;
+		if (CurrentProgress >= RequiredProgress)
+		{
+			IsCompleted = true;
+		}
+	}
 }

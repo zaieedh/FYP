@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -84,15 +85,15 @@ public class Enemy : MonoBehaviour
         if (!IsDead)
         {
             float distanceFromEnemyToPlayer = Mathf.Pow(Mathf.Pow((transform.position.x - Player.transform.position.x), 2) + Mathf.Pow((transform.position.z - Player.transform.position.z), 2), 0.5f);
-            if (distanceFromEnemyToPlayer < AttackDistance)
+            if (Math.Abs(distanceFromEnemyToPlayer-AttackDistance) <= 1f)
             {
                 AttackPlayer();
             }
-            else if (distanceFromEnemyToPlayer < RunTowardsPlayerDistance)
+            else if (distanceFromEnemyToPlayer <= RunTowardsPlayerDistance)
             {
                 RunTowardPlayer();
             }
-            else if (distanceFromEnemyToPlayer < WalkTowardsPlayerDistance)
+            else if (distanceFromEnemyToPlayer <= WalkTowardsPlayerDistance)
             {
                 WalkTowardPlayer();
             }
@@ -104,7 +105,11 @@ public class Enemy : MonoBehaviour
     private void AttackPlayer()
     {
         GetComponent<Animation>().Play(AttackAnimationName);
-        transform.LookAt(Player.transform);
+		/*var lookPos = Player.transform.position - transform.position;
+		lookPos.y = 0;
+		var rotation = Quaternion.LookRotation(lookPos);
+		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 0.1f);*/
+		transform.LookAt(new Vector3(Player.transform.position.x, transform.position.y,Player.transform.position.z));
     }
     /// <summary>
     /// Running towards player
@@ -130,7 +135,7 @@ public class Enemy : MonoBehaviour
         GetComponent<Animation>().Play(animationName);
         transform.LookAt(Player.transform);
         //transform.position = Vector3.Lerp(transform.position, new Vector3(Player.transform.position.x - 1, Player.transform.position.y - 1, Player.transform.position.z - 1), Time.deltaTime * speed);
-        agent.SetDestination(Player.transform.position);
+        agent.SetDestination(new Vector3(Player.transform.position.x - AttackDistance, Player.transform.position.y, Player.transform.position.z - AttackDistance));
         agent.speed = speed;
     }
 
