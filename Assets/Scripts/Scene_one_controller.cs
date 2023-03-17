@@ -100,7 +100,15 @@ public class Scene_one_controller : MonoBehaviour
                     InfoTextUI.Instance.ShowInfo($"You need {purchasable.Price} money to purchase {purchasable.Name}");
                 else
                 {
-                    InfoTextUI.Instance.ShowInfo($"Click [Q] if you wanna purchase {purchasable.Name}");
+                    if(purchasable.Price == 0)
+                    {
+						InfoTextUI.Instance.ShowInfo($"Click [Q] if you wanna get {purchasable.Name}");
+                    }
+                    else
+                    {
+						InfoTextUI.Instance.ShowInfo($"Click [Q] if you wanna purchase {purchasable.Name}");
+					}
+                    
                     //If player clicks Q key, he will purchase item for money he collected
                     if (Input.GetKeyDown(KeyCode.Q))
                     {

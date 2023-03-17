@@ -65,6 +65,7 @@ public class Enemy : MonoBehaviour
     /// Name of enemy's attack animation
     /// </summary>
     public string AttackAnimationName;
+    public string DeathAnimationName;
     /// <summary>
     /// Instance of player's object
     /// </summary>
@@ -153,7 +154,9 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-		GetComponent<Animation>().Play("Death");
+        if (string.IsNullOrEmpty(DeathAnimationName))
+            DeathAnimationName = "Death";
+		GetComponent<Animation>().Play(DeathAnimationName);
         StartCoroutine(RemoveEnemyFromScene());
 	}
 

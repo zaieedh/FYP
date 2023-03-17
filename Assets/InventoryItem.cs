@@ -58,6 +58,15 @@ public class InventoryItem : MonoBehaviour
 				FindObjectOfType<HealthController>().Shield = 50;
 			}
 			FindObjectOfType<InventoryScript>().RemoveFromInventory(Purchasable);
-		}
+		}else if(Purchasable.Type == PurchasableType.Other)
+        {
+            if(Purchasable.Name == "RussianRadio")
+            {
+                if (FindObjectOfType<PlayerScript>().InsideRussianCheckpoint)
+                {
+					StartCoroutine(InfoTextUI.Instance.ShowInfo($"Code is: 12345", 2));
+				}
+			}
+        }
     }
 }

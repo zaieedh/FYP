@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    public bool InsideRussianCheckpoint { get; set; }
 	private void Awake()
 	{
 		DontDestroyOnLoad(this);
@@ -26,4 +28,20 @@ public class PlayerScript : MonoBehaviour
             GetComponent<HealthController>().TakeDamage(enemy.Damage);
         }
     }
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.name == "RussianRadioCheckpoint")
+		{
+			InsideRussianCheckpoint = true;
+		}
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.name == "RussianRadioCheckpoint")
+		{
+			InsideRussianCheckpoint = false;
+		}
+	}
 }

@@ -14,6 +14,8 @@ public class InfoTextUI : MonoBehaviour
     /// </summary>
     public static InfoTextUI Instance { get; private set; }
 
+    private bool IsWaiting;
+
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -48,8 +50,10 @@ public class InfoTextUI : MonoBehaviour
     /// <returns></returns>
     public IEnumerator ShowInfo(string content, int seconds)
     {
-        ShowInfo(content);
-        yield return new WaitForSeconds(seconds);
+		IsWaiting = true;
+		ShowInfo(content);
+		yield return new WaitForSeconds(seconds);
+        IsWaiting = false;
         Hide();
     }
     /// <summary>
@@ -57,7 +61,10 @@ public class InfoTextUI : MonoBehaviour
     /// </summary>
     public void Hide()
     {
-        text.text = "";
-        gameObject.SetActive(false);
+        if (!IsWaiting)
+        {
+            text.text = "";
+            gameObject.SetActive(false);
+        }
     }
 }
