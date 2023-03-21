@@ -57,7 +57,7 @@ public class CustomPlayerMovementFYI : MonoBehaviour
     /// <summary>
     /// Checking if grounded
     /// </summary>
-    bool grounded;
+    public bool grounded;
     /// <summary>
     /// Player's orientation
     /// </summary>
@@ -83,7 +83,7 @@ public class CustomPlayerMovementFYI : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        /*rb.freezeRotation = true;*/
 
         readyToJump = true;
     }
@@ -125,7 +125,7 @@ public class CustomPlayerMovementFYI : MonoBehaviour
         // when to jump
         if(Input.GetKey(jumpKey) && readyToJump && grounded)
         {
-            readyToJump = false;
+			readyToJump = false;
 
             Jump();
 

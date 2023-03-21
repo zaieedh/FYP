@@ -46,6 +46,7 @@ public class Scene_one_controller : MonoBehaviour
     /// GameManager instance with functionalities used in many classes
     /// </summary>
     public GameManager gameManager;
+    public GameObject doorInputLocker;
 
 	private void FixedUpdate()
     {
@@ -102,7 +103,7 @@ public class Scene_one_controller : MonoBehaviour
                 {
                     if(purchasable.Price == 0)
                     {
-						InfoTextUI.Instance.ShowInfo($"Click [Q] if you wanna get {purchasable.Name}");
+						InfoTextUI.Instance.ShowInfo($"Click [Q] to pick up {purchasable.Name}");
                     }
                     else
                     {
@@ -114,7 +115,8 @@ public class Scene_one_controller : MonoBehaviour
                     {
                         GameManager.money -= purchasable.Price;
                         purchasable.OnPurchase();
-                        StartCoroutine(InfoTextUI.Instance.ShowInfo($"You purchased {purchasable.Name}", 1));
+                        if(purchasable.Price > 0)
+                            StartCoroutine(InfoTextUI.Instance.ShowInfo($"You purchased {purchasable.Name}", 1));
                     }
                 }
             }
@@ -129,11 +131,25 @@ public class Scene_one_controller : MonoBehaviour
                     {
 						//Displaying text on UI to click E to open door
 						InfoTextUI.Instance.ShowInfo("Click [E] to open the door");
-						//Going to next scene (inside of house) on clicking E key
+						//Going to next location on clicking E key
 						if (Input.GetKeyDown(KeyCode.E))
 						{
 							door.Open();
 						}
+					}
+				}else if (door.RequiresPassword)
+                {
+					//Displaying text on UI to click E to open door
+					InfoTextUI.Instance.ShowInfo("Click Q to input code");
+					//Going to next scene (inside of house) on clicking E key
+					if (Input.GetKeyDown(KeyCode.Q))
+					{
+						doorInputLocker.SetActive(true);
+                        Time.timeScale = 0;
+                        var doorIL = doorInputLocker.GetComponent<DoorInputLocker>();
+						door.Password = FindObjectOfType<RussianRadioCheckpoint>().TopSecretCode.ToString();
+                        doorIL.Door = door;
+                        doorIL.ActivateInput();
 					}
 				}
                 else

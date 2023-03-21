@@ -12,4 +12,13 @@ public class QuestsManager
 	{
 		return Quests.FirstOrDefault(a=>a.Name== name);
 	}
+
+	public void Activate(string name)
+	{
+		foreach(Quest a in Quests.Where(b => b.Name != name))
+		{
+			a.IsActive = false;
+		}
+		GetQuestByName(name).IsActive = true;
+	}
 }

@@ -64,7 +64,10 @@ public class InventoryItem : MonoBehaviour
             {
                 if (FindObjectOfType<PlayerScript>().InsideRussianCheckpoint)
                 {
-					StartCoroutine(InfoTextUI.Instance.ShowInfo($"Code is: 12345", 2));
+					var sceneOneController = FindObjectOfType<Scene_one_controller>();
+					/*sceneOneController.questsManager.GetQuestByName("Second Quest").GetTaskByName("Call your allies").IsCompleted = true;
+					sceneOneController.questsGuiManager.UpdateGUI();*/
+					StartCoroutine(InfoTextUI.Instance.ShowInfo($"Code is: {FindObjectOfType<RussianRadioCheckpoint>().TopSecretCode}", 2));
 				}
 			}
         }

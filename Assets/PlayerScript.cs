@@ -8,7 +8,7 @@ public class PlayerScript : MonoBehaviour
     public bool InsideRussianCheckpoint { get; set; }
 	private void Awake()
 	{
-		DontDestroyOnLoad(this);
+		//DontDestroyOnLoad(this);
 	}
 	private void Start()
     {
@@ -34,6 +34,9 @@ public class PlayerScript : MonoBehaviour
 		if (other.gameObject.name == "RussianRadioCheckpoint")
 		{
 			InsideRussianCheckpoint = true;
+			var sceneOneController = FindObjectOfType<Scene_one_controller>();
+			sceneOneController.questsManager.GetQuestByName("Second Quest").GetTaskByName("Find signal").IsCompleted = true;
+			sceneOneController.questsGuiManager.UpdateGUI();
 		}
 	}
 

@@ -17,12 +17,6 @@ public class MainMenu : MonoBehaviour
 		Cursor.visible = true;
 	}
 
-	private void Start()
-	{
-		Debug.Log("In start");
-		DestroyImmediate(FindObjectOfType<CanvasScript>().gameObject);
-	}
-
 	/// <summary>
 	/// Starting a game
 	/// </summary>

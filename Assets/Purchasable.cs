@@ -45,5 +45,11 @@ public class Purchasable : MonoBehaviour
             Purchased = true;
             gameObject.SetActive(false);
         }
+        if (Name == "RussianRadio")
+        {
+            var sceneOneController = FindObjectOfType<Scene_one_controller>();
+			sceneOneController.questsManager.GetQuestByName("Second Quest").GetTaskByName("Find Radio").IsCompleted = true;
+            sceneOneController.questsGuiManager.UpdateGUI();
+		}
     }
 }

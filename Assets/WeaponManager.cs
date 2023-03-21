@@ -61,7 +61,10 @@ public class WeaponManager : MonoBehaviour
 
         //PUT IN INVENTORY THEN REMOVE
         if (weapon.GetComponent<Weapon>().IsMelee)
+        {
             WeaponRelatedUI.Instance.Hide();
+            AimController.Instance.aimMode = AimModes.Close;
+        }
         else
         {
             WeaponRelatedUI.Instance.weaponNameText.text = weapon.GetComponent<Weapon>().Name;

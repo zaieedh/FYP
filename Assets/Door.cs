@@ -7,6 +7,7 @@ public enum DoorType
 {
     ChangeLocation,
     Rotate,
+    GameEnd,
     Other
 }
 public class Door : MonoBehaviour
@@ -28,6 +29,14 @@ public class Door : MonoBehaviour
     /// </summary>
     public bool RequiresKey;
     /// <summary>
+    /// Check if door requires password to open
+    /// </summary>
+    public bool RequiresPassword;
+    /// <summary>
+    /// Password to open doors;
+    /// </summary>
+    public string Password;
+    /// <summary>
     /// Key to open this door
     /// </summary>
     public Purchasable Key;
@@ -46,12 +55,32 @@ public class Door : MonoBehaviour
         }else if(Type == DoorType.Rotate)
         {
             OpenDoorByRotating();
-            Debug.Log("Door is opening");
-        }
-    }
+        }else if(Type == DoorType.GameEnd)
+        {
+			SceneManager.LoadScene(3);
+			//gameManager.GoToNextScene(0);
+		}
+        OnDoorOpening();
+	}
+
+    private void OnDoorOpening()
+    {
+        if(gameObject.name == "DoorToLocationTwo")
+        {
+			var sceneOneController = FindObjectOfType<Scene_one_controller>();
+            sceneOneController.questsManager.Activate("Second Quest");
+            sceneOneController.questsGuiManager.ResetGUI();
+		}
+        else if (gameObject.name == "DoorToLocationTwo")
+		{
+
+		}
+	}
 
     private void OpenDoorByRotating()
     {
 
     }
+
+
 }

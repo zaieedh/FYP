@@ -8,6 +8,6 @@ public class CanvasScript : MonoBehaviour
 	void Start()
     {
 		//Preventing canvas to be destroyed on load
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
     }
 }
