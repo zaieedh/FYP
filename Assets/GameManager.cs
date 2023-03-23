@@ -56,7 +56,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Update()
+	private void Start()
+	{
+
+	}
+
+    public void CloseGame()
+    {
+        Application.Quit();
+    }
+
+	void Update()
     {
         //Open menu when player clicks ESC key
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -101,6 +111,7 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSeconds(1);
 		var spawnPoint = FindObjectOfType<LocationsManager>().GetLocationByName(location).SpawnPoint.position;
 		FindObjectOfType<PlayerScript>().MoveTo(spawnPoint);
+        FindObjectOfType<SaveLoadController>().Save();
 		InfoTextUI.Instance.Hide();
 
 		transition.SetTrigger("End");

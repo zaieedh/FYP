@@ -34,7 +34,7 @@ public class InventoryScript : MonoBehaviour
     /// <summary>
     /// Creating empty slots on start, based on number of slots player can have
     /// </summary>
-    public void Start()
+    public void Awake()
     {
         Slots = new List<GameObject>();
         for(int i = 0; i < NumberOfSlots; i++)
@@ -145,4 +145,24 @@ public class InventoryScript : MonoBehaviour
         }
         return null;
     }
+
+    public List<string> GetNamesOfInventoryItems()
+    {
+        List<string> currentItems = new List<string>();
+
+		if (Slots.Count > 0)
+		{
+
+			for (int i = 0; i < NumberOfSlots; i++)
+			{
+				Purchasable purchasable = Slots[i].transform.GetComponentInChildren<InventoryItem>()?.Purchasable;
+
+				if (purchasable != null)
+				{
+                    currentItems.Add(purchasable.Name);
+				}
+			}
+		}
+		return currentItems;
+	}
 }

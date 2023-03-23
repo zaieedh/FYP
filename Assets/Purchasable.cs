@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum PurchasableType
 {
     Weapon,
@@ -11,10 +12,11 @@ public enum PurchasableType
 
 public class Purchasable : MonoBehaviour
 {
-    /// <summary>
-    /// Name of purchasable item
-    /// </summary>
-    public string Name;
+	
+	/// <summary>
+	/// Name of purchasable item
+	/// </summary>
+	public string Name;
     /// <summary>
     /// Price of purchasable item
     /// </summary>

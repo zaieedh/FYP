@@ -7,7 +7,7 @@ public class QuickSlotsManager : MonoBehaviour
 {
     public QuickSlot[] Slots;
 
-    void Start()
+    void Awake()
     {
         Slots = transform.GetComponentsInChildren<QuickSlot>();
         for(int i = 1; i < Slots.Length + 1; i++)

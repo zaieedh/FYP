@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class InventoryItem : MonoBehaviour
 {
-    /// <summary>
-    /// Object that will be Purchased and placed in inventory
-    /// </summary>
-    public Purchasable Purchasable;
+	/// Ammount of collectible got, once its collected
+	/// </summary>
+	public int ValueWhenCatched;
+	/// <summary>
+	/// Object that will be Purchased and placed in inventory
+	/// </summary>
+	public Purchasable Purchasable;
     /// <summary>
     /// Picture of item in inventory
     /// </summary>
@@ -56,6 +59,10 @@ public class InventoryItem : MonoBehaviour
 			}else if (Purchasable.Name == "Shield")
 			{
 				FindObjectOfType<HealthController>().Shield = 50;
+			}
+			else if (Purchasable.Name == "Health")
+			{
+				FindObjectOfType<HealthController>().Health = FindObjectOfType<HealthController>().Health + 20;
 			}
 			FindObjectOfType<InventoryScript>().RemoveFromInventory(Purchasable);
 		}else if(Purchasable.Type == PurchasableType.Other)

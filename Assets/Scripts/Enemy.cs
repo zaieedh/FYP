@@ -39,11 +39,19 @@ public class Enemy : MonoBehaviour
 	/// Distance of when to trigger an anemy to run towards player (if player gets close to enemy on this distance, enemy will start running to him)
 	/// </summary>
 	public float RunTowardsPlayerDistance;
-    
-    /// <summary>
-    /// Enemy's attack speed
-    /// </summary>
-    public float AttackSpeed;
+	/// <summary>
+	/// Distance of when to trigger an anemy should be idle
+	/// </summary>
+	public float IdleDistance;
+
+
+
+	public float IdleSpeed;
+
+	/// <summary>
+	/// Enemy's attack speed
+	/// </summary>
+	public float AttackSpeed;
     /// <summary>
     /// Enemy's walk speed
     /// </summary>
@@ -53,10 +61,12 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public float RunSpeed;
 
-    /// <summary>
-    /// Name of enemy's walk animation
-    /// </summary>
-    public string WalkAnimationName;
+	public string IdleAnimationName;
+
+	/// <summary>
+	/// Name of enemy's walk animation
+	/// </summary>
+	public string WalkAnimationName;
     /// <summary>
     /// Name of enemy's run animation
     /// </summary>
@@ -94,7 +104,11 @@ public class Enemy : MonoBehaviour
             {
                 RunTowardPlayer();
             }
-            else if (distanceFromEnemyToPlayer <= WalkTowardsPlayerDistance)
+			else if (distanceFromEnemyToPlayer >= WalkTowardsPlayerDistance)
+			{
+				StayIdle();
+			}
+			else if (distanceFromEnemyToPlayer <= WalkTowardsPlayerDistance)
             {
                 WalkTowardPlayer();
             }
@@ -119,10 +133,14 @@ public class Enemy : MonoBehaviour
     {
         MoveTowardPlayer(RunAnimationName, RunSpeed);
     }
-    /// <summary>
-    /// Walking towards player
-    /// </summary>
-    private void WalkTowardPlayer()
+	private void StayIdle()
+	{
+		MoveTowardPlayer( IdleAnimationName, IdleSpeed);
+	}
+	/// <summary>
+	/// Walking towards player
+	/// </summary>
+	private void WalkTowardPlayer()
     {
         MoveTowardPlayer(WalkAnimationName, WalkSpeed);
     }
