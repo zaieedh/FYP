@@ -92,7 +92,7 @@ public class CustomPlayerMovementFYI : MonoBehaviour
     {
         if (!GameManager.isMenuOpened)
         {
-            // ground check
+            // ground check (to check if player touches the ground, not flying)
             grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
 
             MyInput();
@@ -125,6 +125,7 @@ public class CustomPlayerMovementFYI : MonoBehaviour
         // when to jump
         if(Input.GetKey(jumpKey) && readyToJump && grounded)
         {
+            //prevents the user from multiple jumping
 			readyToJump = false;
 
             Jump();

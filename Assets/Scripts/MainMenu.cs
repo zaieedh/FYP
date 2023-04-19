@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
 	/// Audio souce assigned to main menu
 	/// </summary>
 	AudioSource startingNoise;
-	//Loads Next Scene
+
 	void Awake()
 	{
 		startingNoise = GetComponent<AudioSource>();
@@ -32,15 +32,13 @@ public class MainMenu : MonoBehaviour
 	IEnumerator PlaySoundAndStartGame()
 	{
 		startingNoise.Play();
-
 		yield return new WaitForSeconds(startingNoise.clip.length);
-		
-		//	SceneManager.LoadSceneAsync(1);
 	}
-	//Game comes to a end
+	/// <summary>
+	///	Quitting game
+	/// </summary>
 	public void Quit()
 	{
 		Application.Quit();
-		Debug.Log("Quit");
 	}
 }

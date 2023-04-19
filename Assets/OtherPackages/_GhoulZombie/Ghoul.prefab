@@ -999,7 +999,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1309486516299566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdeeffadbccddd94d9d0b5648c5bf19f, type: 3}
+  m_Script: {fileID: 11500000, guid: b38bd387052ab0b40bbd7f05044339b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Ghoul
@@ -1010,12 +1010,16 @@ MonoBehaviour:
   AttackDistance: 2
   WalkTowardsPlayerDistance: 10
   RunTowardsPlayerDistance: 25
+  IdleDistance: 0
+  IdleSpeed: 0
   AttackSpeed: 2
   WalkSpeed: 2
   RunSpeed: 5
+  IdleAnimationName: Idle
   WalkAnimationName: Walk
   RunAnimationName: Run
   AttackAnimationName: Attack1
+  DeathAnimationName: Death
   Reward: {fileID: 7773318273524795697, guid: 414842140a9a99146813a85c270eaf4e, type: 3}
 --- !u!82 &3094260888356031816
 AudioSource:

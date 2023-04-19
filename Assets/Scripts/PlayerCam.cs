@@ -64,7 +64,7 @@ public class PlayerCam : MonoBehaviour
 
     private void Update()
     {
-        //Changing roration of players camp based on mouse inputs and its sensitivity based on aim mode
+        //Changing roration of players cam based on mouse inputs and its sensitivity based on aim mode
         if (!GameManager.isMenuOpened)
         {
             if (AimController.Instance.aimMode == AimModes.Far)

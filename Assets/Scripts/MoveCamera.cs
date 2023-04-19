@@ -9,7 +9,6 @@ public class MoveCamera : MonoBehaviour
     /// </summary>
     public Transform cameraPosition;
 
-    // Update is called once per frame
     void Update()
     {
         //updating position of camera

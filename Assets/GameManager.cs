@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static bool isMenuOpened
     {
+
         get
         {
             return _menuOpened;
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
     /// Money collected by user
     /// </summary>
     public static int money
+
     {
         get
         {
@@ -47,20 +49,19 @@ public class GameManager : MonoBehaviour
         }
         set
         {
-            _money = value;
-            if(_money >= 50)
+            _money = 0;
+			_money = value;
+
+			if (_money >= 50)
             {
-                FindObjectOfType<Scene_one_controller>().questsManager.GetQuestByName("Main Quest").GetTaskByName("Collect 50 gold").SetProgress(_money);
-                FindObjectOfType<QuestsGuiManager>().UpdateGUI();
+              FindObjectOfType<PlayerRaycastController>().questsManager.GetQuestByName("Main Quest").GetTaskByName("Collect 50 gold").SetProgress(_money);
+              FindObjectOfType<QuestsGuiManager>().UpdateGUI();
 			}
         }
     }
-
-	private void Start()
-	{
-
-	}
-
+    /// <summary>
+    /// Closing game
+    /// </summary>
     public void CloseGame()
     {
         Application.Quit();
@@ -76,6 +77,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Changing scene
+    /// </summary>
+    /// <param name="id">Id of new scene</param>
     public void GoToNextScene(int id)
     {
         StartCoroutine(goToNextScene(id));
@@ -98,12 +103,20 @@ public class GameManager : MonoBehaviour
 
 		SceneManager.LoadScene(sceneIndex);
 	}
-
+    /// <summary>
+    /// Moving player to new location
+    /// </summary>
+    /// <param name="location">Name of new location</param>
     public void GoToNextLocation(string location)
     {
         StartCoroutine(goToNextLocation(location));
     }
 
+    /// <summary>
+    /// Moving player to new location
+    /// </summary>
+    /// <param name="location">Name of new location</param>
+    /// <returns>Coroutine</returns>
     private IEnumerator goToNextLocation(string location)
     {
 		transition.SetTrigger("Start");

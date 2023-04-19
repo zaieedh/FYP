@@ -8,7 +8,7 @@ public class HealthController : MonoBehaviour
 {
     private int health;
     /// <summary>
-    /// Health of player
+    /// Health of player, on set it is checking if health is not below 0 or over 100 and updating GUI health bar
     /// </summary>
     public int Health
     {
@@ -30,15 +30,16 @@ public class HealthController : MonoBehaviour
 			}
 			else if (health > 100)
 				health = 100;
+            //updates health bar
 			HealthBar.value = 100 - health;
 			HealthText.text = health.ToString();
 		}
     }
     private int shield;
-    /// <summary>
-    /// Shield of player
-    /// </summary>
-    public int Shield
+	/// <summary>
+	/// Shield of player, on set it is checking if shield is not below 0 or over 100 and updating GUI shield bar
+	/// </summary>
+	public int Shield
     {
         get
         {
@@ -99,6 +100,7 @@ public class HealthController : MonoBehaviour
             if(Shield - damage < 0)
             {
                 Health += (Shield - damage);
+                Shield = 0;
             }
             else
             {

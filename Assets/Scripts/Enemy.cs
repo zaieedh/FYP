@@ -44,10 +44,6 @@ public class Enemy : MonoBehaviour
 	/// </summary>
 	public float IdleDistance;
 
-
-
-	public float IdleSpeed;
-
 	/// <summary>
 	/// Enemy's attack speed
 	/// </summary>
@@ -60,7 +56,9 @@ public class Enemy : MonoBehaviour
     /// Enemy's run speed
     /// </summary>
     public float RunSpeed;
-
+    /// <summary>
+    /// Name of enemy's idle animation
+    /// </summary>
 	public string IdleAnimationName;
 
 	/// <summary>
@@ -80,7 +78,13 @@ public class Enemy : MonoBehaviour
     /// Instance of player's object
     /// </summary>
     private GameObject Player;
+    /// <summary>
+    /// NavmeshAgent of enemy
+    /// </summary>
     private NavMeshAgent agent;
+    /// <summary>
+    /// Reward to be spawned once enemy is killed
+    /// </summary>
     public GameObject Reward;
 
     public void Start()
@@ -96,7 +100,8 @@ public class Enemy : MonoBehaviour
         if (!IsDead)
         {
             float distanceFromEnemyToPlayer = Mathf.Pow(Mathf.Pow((transform.position.x - Player.transform.position.x), 2) + Mathf.Pow((transform.position.z - Player.transform.position.z), 2), 0.5f);
-            if (Math.Abs(distanceFromEnemyToPlayer-AttackDistance) <= 1f)
+
+			if (Math.Abs(distanceFromEnemyToPlayer-AttackDistance) <= 1f)
             {
                 AttackPlayer();
             }
@@ -104,15 +109,15 @@ public class Enemy : MonoBehaviour
             {
                 RunTowardPlayer();
             }
-			else if (distanceFromEnemyToPlayer >= WalkTowardsPlayerDistance)
-			{
-				StayIdle();
-			}
 			else if (distanceFromEnemyToPlayer <= WalkTowardsPlayerDistance)
             {
                 WalkTowardPlayer();
             }
-        }
+            else if (distanceFromEnemyToPlayer >= WalkTowardsPlayerDistance)
+			{
+				StayIdle();
+			}
+		}
     }
     /// <summary>
     /// Playing enemy's attack animation and attacking player
@@ -124,7 +129,8 @@ public class Enemy : MonoBehaviour
 		lookPos.y = 0;
 		var rotation = Quaternion.LookRotation(lookPos);
 		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 0.1f);*/
-		transform.LookAt(new Vector3(Player.transform.position.x, transform.position.y,Player.transform.position.z));
+	
+        transform.LookAt(new Vector3(Player.transform.position.x, transform.position.y,Player.transform.position.z));
     }
     /// <summary>
     /// Running towards player
@@ -133,9 +139,16 @@ public class Enemy : MonoBehaviour
     {
         MoveTowardPlayer(RunAnimationName, RunSpeed);
     }
+    /// <summary>
+    /// Staying in idle state
+    /// </summary>
 	private void StayIdle()
 	{
-		MoveTowardPlayer( IdleAnimationName, IdleSpeed);
+        if (!string.IsNullOrEmpty(IdleAnimationName))
+        {
+            GetComponent<Animation>().Play(IdleAnimationName);
+            agent.speed = 0;
+        }
 	}
 	/// <summary>
 	/// Walking towards player
@@ -158,6 +171,10 @@ public class Enemy : MonoBehaviour
         agent.speed = speed;
     }
 
+    /// <summary>
+    /// Taking damage, decreasing enemy's health by damage dealt in damage param
+    /// </summary>
+    /// <param name="damage">Damage to be dealt to enemy</param>
     public void TakeDamage(int damage)
     {
         Health -= damage;
@@ -170,6 +187,9 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
+    /// <summary>
+    /// Action that kills enemy, setting up death animation on him and removing from scene;
+    /// </summary>
     private void Die()
     {
         if (string.IsNullOrEmpty(DeathAnimationName))
@@ -177,7 +197,10 @@ public class Enemy : MonoBehaviour
 		GetComponent<Animation>().Play(DeathAnimationName);
         StartCoroutine(RemoveEnemyFromScene());
 	}
-
+    /// <summary>
+    /// Removing enemy from scene after 2 seconds and instantiating reward for him
+    /// </summary>
+    /// <returns></returns>
 	IEnumerator RemoveEnemyFromScene()
 	{
 		yield return new WaitForSeconds(2);
