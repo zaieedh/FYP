@@ -55,10 +55,10 @@ public class InventoryItem : MonoBehaviour
         {
             if(Purchasable.Name == "Syringe")
             {
-                FindObjectOfType<HealthController>().Shield = 100;
+                FindObjectOfType<HealthController>().Shield += 100;
 			}else if (Purchasable.Name == "Shield")
 			{
-				FindObjectOfType<HealthController>().Shield = 50;
+				FindObjectOfType<HealthController>().Shield += 50;
 			}
 			else if (Purchasable.Name == "Health")
 			{

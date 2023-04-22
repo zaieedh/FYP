@@ -22,6 +22,10 @@ public class Purchasable : MonoBehaviour
     /// </summary>
     public int Price;
     /// <summary>
+    /// Info to be displayed
+    /// </summary>
+    public string Info;
+    /// <summary>
     /// Image of purchasable item once its added to inventory
     /// </summary>
     public Texture2D InventoryImage;

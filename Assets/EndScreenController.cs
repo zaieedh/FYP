@@ -22,19 +22,13 @@ public class EndScreenController : MonoBehaviour
     public void GoToMainMenu()
     {
 		SceneManager.LoadScene(0);
-		
-
 	}
     /// <summary>
     /// Restarting the game
     /// </summary>
     public void RestartGame()
     {
-	    PlayerPrefs.SetInt("GhoulsKilled", 0);
-		PlayerPrefs.SetString("CurrentQuest", "");
-		PlayerPrefs.SetInt("Money", 0);
-		PlayerPrefs.SetString("PlayersInventory", "");
-        PlayerPrefs.SetString("PlayerPosition", "");
-		SceneManager.LoadScene(1);
+        SaveLoadController.ResetState();
+		SceneManager.LoadScene(4);
 	}
 }

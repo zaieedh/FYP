@@ -124,16 +124,16 @@ public class PlayerRaycastController : MonoBehaviour
                 //Performing actions once player aims on purchasable item, displaying UI informing player about possible actions he can do with this item
                 Purchasable purchasable = hit.transform.gameObject.GetComponent<Purchasable>();
                 if (GameManager.money < purchasable.Price)
-                    InfoTextUI.Instance.ShowInfo($"You need {purchasable.Price} gold to purchase {purchasable.Name}");
+                    InfoTextUI.Instance.ShowInfo($"You need {purchasable.Price} gold to purchase {purchasable.Name} {purchasable.Info}");
                 else
                 {
                     if(purchasable.Price == 0)
                     {
-						InfoTextUI.Instance.ShowInfo($"Click [P] to pick up {purchasable.Name}");
+						InfoTextUI.Instance.ShowInfo($"Click [P] to pick up {purchasable.Name} {purchasable.Info}");
                     }
                     else
                     {
-						InfoTextUI.Instance.ShowInfo($"Click [P] if you want to purchase {purchasable.Name}");
+						InfoTextUI.Instance.ShowInfo($"Click [P] if you want to purchase {purchasable.Name} {purchasable.Info}");
 					}
                     
                     //If player clicks P key, he will purchase item for money he collected
@@ -142,7 +142,7 @@ public class PlayerRaycastController : MonoBehaviour
                         GameManager.money -= purchasable.Price;
                         purchasable.OnPurchase();
                         if(purchasable.Price > 0)
-                            StartCoroutine(InfoTextUI.Instance.ShowInfo($"You purchased {purchasable.Name}", 1));
+                            StartCoroutine(InfoTextUI.Instance.ShowInfo($"You purchased {purchasable.Name} {purchasable.Info}", 1));
                     }
                 }
             }

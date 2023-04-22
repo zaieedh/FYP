@@ -17,13 +17,28 @@ public class MainMenu : MonoBehaviour
 		Cursor.visible = true;
 	}
 
+	private void Start()
+	{
+		//Remove after tests
+		//SaveLoadController.ResetState();
+	}
+
 	/// <summary>
 	/// Starting a game
 	/// </summary>
 	public void ButtonHandlerPlay()
 	{
 		StartCoroutine(PlaySoundAndStartGame());
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+		var checkIfAnySavePoint = PlayerPrefs.GetString("PlayerPosition", "") != "";
+		if (checkIfAnySavePoint)
+		{
+			SceneManager.LoadScene(1);
+		}
+		else
+		{
+			SceneManager.LoadScene(4);
+		}
+		
 	}
 	/// <summary>
 	/// Playing sound on game start

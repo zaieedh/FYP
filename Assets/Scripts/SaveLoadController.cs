@@ -16,7 +16,7 @@ public class SaveLoadController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-     Load();
+        Load();
     }
     /// <summary>
     /// Loading players position from PlayerPrefs variable 'PlayerPosition'
@@ -138,5 +138,14 @@ public class SaveLoadController : MonoBehaviour
         LoadMoney();
         LoadGhouls();
         LoadCurrentQuest();
+	}
+
+	public static void ResetState()
+	{
+		PlayerPrefs.SetString("PlayerPosition", "");
+		PlayerPrefs.SetString("PlayersInventory", "");
+		PlayerPrefs.SetInt("Money", 0);
+		PlayerPrefs.SetInt("GhoulsKilled", 0);
+        PlayerPrefs.SetString("CurrentQuest", "");
 	}
 }
