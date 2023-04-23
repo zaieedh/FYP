@@ -67,6 +67,24 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+	private void Start()
+	{
+		if (PlayerPrefs.GetInt("IsMuted", 0) == 1)
+		{
+			foreach (AudioSource audioSource in FindObjectsOfType<AudioSource>())
+			{
+				audioSource.mute = true;
+			}
+		}
+		else
+		{
+			foreach (AudioSource audioSource in FindObjectsOfType<AudioSource>())
+			{
+				audioSource.mute = false;
+			}
+		}
+	}
+
 	void Update()
     {
         //Open menu when player clicks ESC key

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class MainMenu : MonoBehaviour
 	/// Audio souce assigned to main menu
 	/// </summary>
 	AudioSource startingNoise;
+	public Button VolumeButton;
+	public Sprite muteVolumeSprite, unmuteVolumeSprite;
 
 	void Awake()
 	{
@@ -19,6 +22,22 @@ public class MainMenu : MonoBehaviour
 
 	private void Start()
 	{
+		if (PlayerPrefs.GetInt("IsMuted", 0) == 1)
+		{
+			foreach (AudioSource audioSource in FindObjectsOfType<AudioSource>())
+			{
+				audioSource.mute = true;
+			}
+			VolumeButton.image.sprite = unmuteVolumeSprite;
+		}
+		else
+		{
+			foreach (AudioSource audioSource in FindObjectsOfType<AudioSource>())
+			{
+				audioSource.mute = false;
+			}
+			VolumeButton.image.sprite = muteVolumeSprite;
+		}
 		//Remove after tests
 		//SaveLoadController.ResetState();
 	}
@@ -55,5 +74,28 @@ public class MainMenu : MonoBehaviour
 	public void Quit()
 	{
 		Application.Quit();
+	}
+
+	public void MuteSound()
+	{
+		if(PlayerPrefs.GetInt("IsMuted", 0) == 1)
+		{
+			foreach(AudioSource audioSource in FindObjectsOfType<AudioSource>())
+			{
+				audioSource.mute = false;
+			}
+			VolumeButton.image.sprite = unmuteVolumeSprite;
+			PlayerPrefs.SetInt("IsMuted", 0);
+		}
+		else
+		{
+			foreach (AudioSource audioSource in FindObjectsOfType<AudioSource>())
+			{
+				audioSource.mute = true;
+			}
+			VolumeButton.image.sprite = muteVolumeSprite;
+			PlayerPrefs.SetInt("IsMuted", 1);
+		}
+		
 	}
 }
