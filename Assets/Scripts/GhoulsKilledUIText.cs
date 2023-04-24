@@ -6,10 +6,16 @@ using UnityEngine;
 //Updating score of killed Ghouls on UI
 public class GhoulsKilledUIText : MonoBehaviour
 {
-    void Update()
+	private PlayerRaycastController controller;
+
+	private void Start()
+	{
+		controller = FindObjectOfType<PlayerRaycastController>();
+	}
+	void Update()
 	//PlayerRaycastController.ghoulsKilled.ToString()
 	{
 		//Updating UI with amount of ghouls killed
-		GetComponent<TextMeshProUGUI>().text = "Ghouls killed: " + PlayerRaycastController.ghoulsKilled.ToString();
+		GetComponent<TextMeshProUGUI>().text = "Ghouls killed: " + controller.ghoulsKilled.ToString();
     }
 }

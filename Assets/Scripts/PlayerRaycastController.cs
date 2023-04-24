@@ -27,12 +27,12 @@ public class PlayerRaycastController : MonoBehaviour
     /// Players hit distance on far aim mode
     /// </summary>
     public float hitDistanceFar = 50;
-    private static int _ghoulsKilled;
+    private int _ghoulsKilled;
     /// <summary>
     /// Amount of ghouls killed
     /// </summary>
 
-    public static int ghoulsKilled
+    public int ghoulsKilled
     {
         get
         {
@@ -41,8 +41,7 @@ public class PlayerRaycastController : MonoBehaviour
         set
         {
             _ghoulsKilled = value;
-            PlayerPrefs.SetInt("GhoulsKilled", _ghoulsKilled);
-        }
+		}
     }
 
     /// <summary>

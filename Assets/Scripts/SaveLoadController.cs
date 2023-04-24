@@ -81,7 +81,7 @@ public class SaveLoadController : MonoBehaviour
     /// </summary>
 	public void SaveGhouls()
 	{
-		PlayerPrefs.SetInt("GhoulsKilled", PlayerRaycastController.ghoulsKilled);
+		PlayerPrefs.SetInt("GhoulsKilled", FindObjectOfType<PlayerRaycastController>().ghoulsKilled);
 		PlayerPrefs.Save();
 	}
     /// <summary>
@@ -105,7 +105,7 @@ public class SaveLoadController : MonoBehaviour
 	}
 	public void LoadGhouls()
     {
-        PlayerRaycastController.ghoulsKilled = PlayerPrefs.GetInt("GhoulsKilled", 0);
+        FindObjectOfType<PlayerRaycastController>().ghoulsKilled = PlayerPrefs.GetInt("GhoulsKilled", 0);
 	}
     /// <summary>
     /// Loading players money from PlayerPrefs variable 'Money'

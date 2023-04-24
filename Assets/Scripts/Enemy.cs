@@ -99,7 +99,8 @@ public class Enemy : MonoBehaviour
         //Proceeding enemies actions based on distance to player if enemy is not dead
         if (!IsDead)
         {
-            float distanceFromEnemyToPlayer = Mathf.Pow(Mathf.Pow((transform.position.x - Player.transform.position.x), 2) + Mathf.Pow((transform.position.z - Player.transform.position.z), 2), 0.5f);
+			//Calculates the distance between the player and enemy.
+			float distanceFromEnemyToPlayer = Mathf.Pow(Mathf.Pow((transform.position.x - Player.transform.position.x), 2) + Mathf.Pow((transform.position.z - Player.transform.position.z), 2), 0.5f);
 
 			if (Math.Abs(distanceFromEnemyToPlayer-AttackDistance) <= 1f)
             {
